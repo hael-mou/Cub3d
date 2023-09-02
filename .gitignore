@@ -1,0 +1,87 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/08/26 15:55:42 by hael-mou          #+#    #+#              #
+#    Updated: 2023/08/26 18:03:23 by hael-mou         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# Compiled files
+*.class
+*.o
+*.pyc
+*.pyo
+*.dll
+*.exe
+*.so
+*.dylib
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swo
+*.tmproj
+*.sublime-workspace
+
+# Package manager directories
+node_modules/
+bower_components/
+vendor/
+
+# Build output
+/dist/
+/build/
+/out/
+/.nuxt/
+/.next/
+/public/
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+*.hprof
+
+# Dependency files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Compiled Java classes
+/target/
+
+# Compiled Python files
+__pycache__/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Miscellaneous
+*.bak
+*.tmp
+*.swp
+*.zip
+*.tar.gz
+*.rar
+*.gz
+*.7z
