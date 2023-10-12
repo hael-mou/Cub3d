@@ -6,105 +6,160 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:25:28 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/07/27 18:57:19 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/11 08:59:36 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-/*###############################################################
-#  	   * Includes :		    								 	#
-###############################################################*/
-# include <unistd.h>
+/* ************************************************************************** */
+/*                               INCLUDES                                     */
+/* ************************************************************************** */
+
 # include <stdlib.h>
-# include <limits.h>
-# include <stdarg.h>
-# include "list.h"
+# include <unistd.h>
+# include <stdbool.h>
+# include <stdint.h>
+# include <math.h>
 
-/*###############################################################
-#  	   * Defines :												#
-###############################################################*/
-# define FALSE	0
-# define TRUE	1
+/* ************************************************************************** */
+/*                                DEFINE                                      */
+/* ************************************************************************** */
 
-/*###############################################################
-#  	   * Functions :											#
-###############################################################*/
-// Checks Functions: 
-int		ft_isalpha(int character);
-int		ft_isupper(int character);
-int		ft_islower(int character);
-int		ft_isdigit(int character);
-int		ft_isalnum(int character);
-int		ft_isascii(int character);
-int		ft_isprint(int character);
-int		ft_isspace(int character);
-int		ft_isxdigit(int character);
+# define ERROR_ALLOC "Memory Allocation Failure !!"
 
-// Convert Functions:
-int		ft_atoi(const char *string);
-char	*ft_itoa(int number);
-int		ft_tolower(int character);
-int		ft_toupper(int character);
+/* ************************************************************************** */
+/*                               vector2D                                     */
+/* ************************************************************************** */
 
-// Print Functions:
-void	ft_putchar_fd(char character, int fd);
-void	ft_putstr_fd(char *string, int fd);
-void	ft_putendl_fd(char *string, int fd);
-void	ft_putnbr_fd(int number, int fd);
-void	ft_print_error(const char *format, ...);
+typedef struct s_vect2d
+{
+	double		x;
+	double		y;
+}	t_vect2d;
 
-// Memory Function:
-void	*ft_memset(void *memory, int constant, size_t len);
-void	ft_bzero(void *memory, size_t len);
-void	*ft_calloc(size_t count, size_t size);
-void	*ft_realloc(void *ptr, size_t size);
-void	*ft_memchr(const void *memory, int c, size_t len);
-int		ft_memcmp(const void *mem1, const void *mem2, size_t n);
-void	*ft_memcpy(void *dst, const void *src, size_t len);
-void	*ft_memmove(void *dst, const void *src, size_t len);
+/* ************************************************************************** */
+/*                                MEMORY                                      */
+/* ************************************************************************** */
 
-// String Function:
-char	**ft_split(char const *string, char delim);
-int		ft_strcout(char const *string, char delim);
-size_t	ft_strlen(const char *string);
-char	*ft_strdup(const char *string);
-char	*ft_strchr(const char *string, int character);
-void	ft_striteri(char *string, void (*fun)(unsigned int, char *));
-void	ft_strreplace(char *str, char *c1, char c2);
-char	*ft_strmapi(char const *string, char (*fun)(unsigned int, char));
-char	*ft_strjoin(char *string1, char const *string2);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
-int		ft_strncmp(const char *string1, const char *string2, size_t n);
-int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-char	*ft_strrchr(const char *string, int character);
-char	*ft_strtok(char const *string, char delim);
-size_t	ft_toklen(const char *string, const char delim);
-char	*ft_strtrim(char const *string, char const *set);
-char	*ft_substr(char const *string, unsigned int start, size_t len);
-char	*ft_strnjoin(char *string1, char const *string2, size_t n);
-char	*ft_vstrjoin(int nstr, char *dst, ...);
-void	ft_free_array(char **node);
-int		ft_array_size(char **array);
+/**
+ * Sets `len` bytes in `memory` to zero.
+ *
+ * @param memory Pointer to the memory block.
+ * @param len    Number of bytes to zero out.
+ * @return A pointer to 'memory'.
+ */
+void		*ft_bzero(void *memory, size_t len);
 
-// number:
-int		ft_nbrlen(int number);
-int		ft_nbrnchr(int *array, int number, int len);
+/**
+ * Allocate memory and set its contents to zero.
+ *
+ * @param count	The number of elements to allocate.
+ * @param size	The size (in bytes) of each element.
+ * @return	A pointer to the allocated memory or NULL if allocation fails.
+ */
+void		*ft_calloc(size_t count, size_t size);
 
-// List :
-t_list	*ft_lstnew(void	*content);
-void	ft_lstadd_front(t_list **lst, t_list *new);
-int		ft_lstsize(t_list *lst);
-t_list	*ft_lstlast(t_list *lst);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-void	ft_lstdelone(t_list *lst, void (*del)(void *));
-void	ft_lstclear(t_list **lst, void (*del)(void *));
-void	ft_lstiter(t_list *lst, void (*f)(void *));
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-t_list	*ft_lstsearch(t_list *lst, int (*search)(void *, void *), void *value);
-void	ft_lstrmif(t_list **list, void *ref, int (*cmp)(), void (*del)(void *));
+/**
+ * Set 'len' bytes of `memory` to the specified `constant` value.
+ *
+ * @param memory   A pointer to the memory to be modified.
+ * @param constant The value to set in each byte.
+ * @param len      The number of bytes to set.
+ * @return A pointer to the modified `memory`.
+ */
+void		*ft_memset(void *memory, int constant, size_t len);
 
-#endif
+/* ************************************************************************** */
+/*                                PRINT                                       */
+/* ************************************************************************** */
+
+/**
+ * Print an error message to the stderr.
+ *
+ * @param error_msg error message to print.
+ * @note This function print only one message, if it hasn't been printed
+ * before during the program's execution.
+ */
+void		ft_perror(char *error_msg);
+
+/**
+ * Write a string to the specified file descriptor.
+ *
+ * @param string string to write.
+ * @param fd     The file descriptor to write to.
+ */
+void		ft_putstr_fd(char *string, int fd);
+
+/* ************************************************************************** */
+/*                                STRING                                      */
+/* ************************************************************************** */
+
+/**
+ * Calculate the length of a string.
+ *
+ * @param string A pointer to the null-terminated string.
+ * @return The length of the input string, excluding '\n'.
+ */
+int32_t		ft_strlen(const char *string);
+
+/**
+ * Compare two strings lexicographically.
+ *
+ * @param s1 A pointer to the first string.
+ * @param s2 A pointer to the second string.
+ * @return An integer value less than, equal to, or greater than zero
+ */
+int32_t		ft_strcmp(const char *s1, const char *s2);
+
+/**
+ * Replace occurrences of a character in a string with another character.
+ *
+ * @param str A pointer to string in which characters are to be replaced.
+ * @param c1 The character to be replaced in the string.
+ * @param c2 The character with which to replace 'c1'.
+ */
+void		ft_replace(char *str, char c1, char c2);
+
+/* ************************************************************************** */
+/*                              VECTOR 2D                                     */
+/* ************************************************************************** */
+
+/**
+ * Add two 2D vectors together.
+ *
+ * @param vector1 The first 2D vector.
+ * @param vector2 The second 2D vector.
+ * @return A new 2D vector, the sum of `vector1` and `vector2`.
+ */
+t_vect2d	ft_add_vect2d(t_vect2d vector1, t_vect2d vector2);
+
+/**
+ * Normalize a 2D vector.
+ *
+ * @param vector The 2D vector to normalize.
+ * @return A new 2D unit vector in the same direction
+ * as the input vector.
+ */
+t_vect2d	ft_normalise_vect2d(t_vect2d vector);
+
+/**
+ * Rotate a 2D vector by a specified angle in radians.
+ *
+ * @param vector The 2D vector to rotate.
+ * @param angle  The angle in radians by which to rotate the vector.
+ * @return A new 2D vector resulting from rotating `vector` by `angle` radians.
+ */
+t_vect2d	ft_rotate_vect2d(t_vect2d vector, double angle);
+
+/**
+ * Scale a 2D vector by a specified factor.
+ *
+ * @param vector The 2D vector to scale.
+ * @param scale  The scaling factor to apply to the vector.
+ * @return A new 2D vector resulting from scaling `vector` by `scale`.
+ */
+t_vect2d	ft_scale_vect2d(t_vect2d vector, double scale);
+
+#endif /* LIBFT_H */
