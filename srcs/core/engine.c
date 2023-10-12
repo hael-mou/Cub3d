@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:05 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/12 08:43:25 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/12 10:37:06 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,6 @@ void	render(t_engine *inst)
 
 	if (++index % 2)
 		return ;
-	for (int j = 0; j < WIN_HEIGHT; j++)
-		{
-			for (int i = 0; i < WIN_WIDTH; i++)
-			{
-				mlx_pixel_put(inst->view, i, j, 0x201030ff);
-				//if (i < 500 && j < 500)
-				//mlx_put_pixel(inst->minimap, i, j, 0xff);
-			}	
-		}
 	minimap(inst->minimap, inst->info, inst->cam->position);
 	render_rays(inst->view, NULL, inst->cam, inst->info);
 }

@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 08:45:42 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/12 09:45:53 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/12 11:02:42 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,3 +210,5 @@ t_ray			get_new_ray(t_vect2d pos, t_vect2d dir);
  * @return      The calculated grid distance as a double.
  */
 double			get_grid_dist(double pos, int32_t map, double dir);
+
+uint32_t	maping_wall_texture(t_image *view, int32_t x, t_final_ray *ray, t_info *info);
