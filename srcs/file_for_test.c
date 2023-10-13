@@ -6,12 +6,12 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 11:09:11 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/12 11:04:21 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/13 10:30:22 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
+#include <stdio.h>
 //==================================================================
 t_info	*loader(char const *file)
 {
@@ -32,10 +32,13 @@ t_info	*loader(char const *file)
 	info->map[9] = "10000000000000011";
 	info->map[10] = " 11111111111111";
 	info->height = 11;
-	info->north = mlx_load_png("assets/oussama.png");
-	info->south = mlx_load_png("assets/hamza.png");
-	info->west = mlx_load_png("assets/oussama.png");
-	info->east = mlx_load_png("assets/hamza.png");
+	info->floor = 0x00ff0000;
+	info->ceiling = 0x00ff0000;
+	info->north = mlx_load_png("srcs/assets/wake.png");
+	info->south = mlx_load_png("srcs/assets/happy.png");
+	info->west = mlx_load_png("ssrcs/assets/oussama.png");
+	info->east = mlx_load_png("ssrcs/assets/hamza.png");
+	info->prespective = WIN_HEIGHT / 2;
 	return (info);
 }
 

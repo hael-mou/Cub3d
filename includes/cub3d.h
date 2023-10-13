@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 08:45:42 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/12 11:02:42 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/12 22:47:54 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_info
 	int32_t		height;
 	int32_t		ceiling;
 	int32_t		floor;
+	int32_t		prespective;
 	t_texture	*north;
 	t_texture	*south;
 	t_texture	*west;
@@ -107,6 +108,14 @@ typedef struct s_engine
 	t_image		*view;
 	t_image		*minimap;
 }	t_engine;
+
+typedef struct s_wall
+{
+	int			height;
+	int			y_min;
+	int			y_max;
+	t_texture	*txtr;
+}				t_wall;
 
 /* ************************************************************************** */
 /*                                   CORE                                     */
@@ -211,4 +220,6 @@ t_ray			get_new_ray(t_vect2d pos, t_vect2d dir);
  */
 double			get_grid_dist(double pos, int32_t map, double dir);
 
-uint32_t	maping_wall_texture(t_image *view, int32_t x, t_final_ray *ray, t_info *info);
+void		maping_textures(t_image *view, int32_t x, t_final_ray *ray, t_info *info);
+
+void			move_up(double x, double y, void *info);
