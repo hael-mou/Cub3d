@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:05 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/14 11:57:22 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/14 16:49:28 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ void	animator(t_engine *inst);
 //=== engine_start : ========================================================
 void	engine_start(t_engine *inst)
 {
+	inst->mode = ZOOM_OUT;
 	mlx_image_to_window(inst->mlx, inst->view, 0, 0);
-	mlx_image_to_window(inst->mlx, inst->player, 240, 0);
+	mlx_image_to_window(inst->mlx, inst->player, 200, 0);
 	mlx_image_to_window(inst->mlx, inst->minimap, 0, 0);
 	mlx_loop_hook(inst->mlx, key_handler, inst);
 	mlx_loop_hook(inst->mlx, render, inst);

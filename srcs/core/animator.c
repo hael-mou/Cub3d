@@ -6,28 +6,29 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 08:54:27 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/14 13:27:40 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/14 16:48:18 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <string.h>
 #include <stdio.h>
-void	play_animation(t_image *img, t_action *action);
+void	play_animation(t_image *img, t_action *action, int32_t *active_anime);
 //===
 void	animator(t_engine *inst)
 {
 	static uint16_t	index;
+	t_action		*anime;
 	
-	if (index++ % 2 == 0)
+	if (index++ % 2 == 0 && inst->info->active_anime != -1)
 	{
-		if (inst->info->shoot.active == true)
-			play_animation(inst->player, &inst->info->shoot);
+		anime = &inst->info->anime[inst->info->active_anime];
+		play_animation(inst->player, anime, &inst->info->active_anime);
 	}
 }
 
 //===
-void	play_animation(t_image *img, t_action *action)
+void	play_animation(t_image *img, t_action *action, int32_t *active_anime)
 {
 	uint32_t	img_y;
 	uint32_t	width;
@@ -39,7 +40,7 @@ void	play_animation(t_image *img, t_action *action)
 	if (action->frame >= action->sprite->width)
 	{
 		action->frame = 0;
-		//action->active = false;
+		*active_anime = -1;
 		return ;
 	}
 	while (++img_y < img->height && img_y < action->sprite->height)

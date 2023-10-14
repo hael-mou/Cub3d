@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 08:45:42 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/14 10:12:08 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/14 15:31:39 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,18 @@ typedef struct mlx_image		t_image;
 # define HORIZONTAL		1
 # define FORWARD		1
 # define SIDEWAY		2
+
+# define NORTH			0
+# define SOUTH			1
+# define WEST			2
+# define EAST			3
+
+# define SHOOT_1		0
+# define ZOOM_IN		1
+# define ZOOM_OUT		2
+# define CHARGE			3
+# define SHOOT_2		4
+
 
 /* ************************************************************************** */
 /*                                   POINT                                    */
@@ -101,7 +113,6 @@ typedef struct s_action
 	uint32_t	frame;
 	uint32_t	frame_size;
 	char		*sound;
-	bool		active;
 }	t_action;
 
 /* ************************************************************************** */
@@ -114,11 +125,9 @@ typedef struct s_info
 	int32_t		ceiling;
 	int32_t		floor;
 	int32_t		prespective;
-	t_texture	*north;
-	t_texture	*south;
-	t_texture	*west;
-	t_texture	*east;
-	t_action	shoot;
+	t_texture	*wall[4];
+	t_action	anime[5];
+	int32_t		active_anime;
 }	t_info;
 
 /* ************************************************************************** */
@@ -132,6 +141,7 @@ typedef struct s_engine
 	t_image		*view;
 	t_image		*player;
 	t_image		*minimap;
+	int32_t		mode;
 }	t_engine;
 
 /* ************************************************************************** */

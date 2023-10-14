@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maping_textures.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 10:38:25 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/13 10:34:25 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/14 14:38:36 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ void	get_wall_info(t_wall *wall, t_final_ray *ray, t_info *info)
 	wall->y_min = info->prespective - (wall->height / 2);
 	wall->y_max = wall->y_min + wall->height;
 	if (ray->side == VERTICAL && ray->direction.x > 0)
-		wall->txtr = info->north;
+		wall->txtr = info->wall[NORTH];
 	if (ray->side == VERTICAL && ray->direction.x < 0)
-		wall->txtr = info->south;
+		wall->txtr = info->wall[SOUTH];
 	if (ray->side == HORIZONTAL && ray->direction.y < 0)
-		wall->txtr = info->east;
+		wall->txtr = info->wall[EAST];
 	if (ray->side == HORIZONTAL && ray->direction.y > 0)
-		wall->txtr = info->west;
+		wall->txtr = info->wall[WEST];
 }
 
 //==== get_yp ==================================================================
