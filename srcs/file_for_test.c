@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 11:09:11 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/13 10:30:22 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/14 13:46:35 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,16 @@ t_info	*loader(char const *file)
 	info->height = 11;
 	info->floor = 0x00ff0000;
 	info->ceiling = 0x00ff0000;
-	info->north = mlx_load_png("srcs/assets/wake.png");
-	info->south = mlx_load_png("srcs/assets/happy.png");
-	info->west = mlx_load_png("ssrcs/assets/oussama.png");
-	info->east = mlx_load_png("ssrcs/assets/hamza.png");
+	info->north = mlx_load_png("assets/per.png");
+	info->south = mlx_load_png("assets/per.png");
+	info->west = mlx_load_png("assets/per.png");
+	info->east = mlx_load_png("assets/per.png");
 	info->prespective = WIN_HEIGHT / 2;
+	info->shoot.frame = 0;
+	//info->shoot.sound = "sniper-rifle-5989.mp3";
+	info->shoot.active = true;
+	info->shoot.sprite = mlx_load_png("assets/shoot2.png");
+	info->shoot.frame_size = 1509;
 	return (info);
 }
 

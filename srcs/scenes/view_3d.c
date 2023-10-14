@@ -6,14 +6,14 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 15:30:24 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/12 11:56:09 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/14 11:57:28 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 //=== reycaster ================================================================
-void	render_rays(t_image *view, t_image *mini, t_camera *cam, t_info *info)
+void	render_view(t_image *view, t_image *mini, t_camera *cam, t_info *info)
 {
 	int32_t		screen_x;
 	t_vect2d	cur;
