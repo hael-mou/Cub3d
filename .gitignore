@@ -19,6 +19,8 @@
 *.exe
 *.so
 *.dylib
+libft.a
+cub3D
 
 # OS-generated files
 .DS_Store
