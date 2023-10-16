@@ -6,13 +6,14 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 08:54:27 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/14 16:48:18 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/15 09:49:40 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <string.h>
 #include <stdio.h>
+
 void	play_animation(t_image *img, t_action *action, int32_t *active_anime);
 //===
 void	animator(t_engine *inst)

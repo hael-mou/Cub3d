@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   maping_textures.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 10:38:25 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/14 14:38:36 by hael-mou         ###   ########.fr       */
+/*   Created: 2023/10/15 09:39:35 by oezzaou           #+#    #+#             */
+/*   Updated: 2023/10/16 12:51:56 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "cub3d.h"
 #include <string.h>
 #include <stdio.h>
@@ -17,7 +16,7 @@
 //==============================================================================
 float		get_xp(t_final_ray *ray);
 float		get_yp(int32_t y, t_wall *wall);
-uint32_t	get_texel(float xp, float yp, t_texture *txtr);
+uint32_t	get_texel(float xp, float yp, t_texture *txtr, float intensity);
 void		get_wall_info(t_wall *wall, t_final_ray *ray, t_info *info);
 
 //==== maping_textures =========================================================
@@ -36,7 +35,7 @@ void	maping_textures(t_image *view, int32_t x, t_final_ray *ray, t_info *info)
 		if (y < wall.y_min)
 			pixel = info->ceiling;
 		else if (y >= wall.y_min && y < wall.y_max)
-			pixel = get_texel(xp, get_yp(y, &wall), wall.txtr);
+			pixel = get_texel(xp, get_yp(y, &wall), wall.txtr, wall.intensity);
 		else
 			pixel = info->floor;
 		memmove(&view->pixels[y * 4 * view->width + (x * 4)], &pixel, 4);
@@ -46,9 +45,12 @@ void	maping_textures(t_image *view, int32_t x, t_final_ray *ray, t_info *info)
 //==== get_wall_info ===========================================================
 void	get_wall_info(t_wall *wall, t_final_ray *ray, t_info *info)
 {
-	wall->height = WIN_WIDTH / 1.4 / ray->distance;
-	wall->y_min = info->prespective - (wall->height / 2);
+	wall->height = WIN_WIDTH / (1.4 * ray->distance);
+	wall->y_min = info->perspective - (wall->height / 2);
 	wall->y_max = wall->y_min + wall->height;
+	wall->intensity = 1.0;
+	if (wall->height < (WIN_HEIGHT * 0.30))
+		wall->intensity = wall->height / (WIN_HEIGHT * 0.30);
 	if (ray->side == VERTICAL && ray->direction.x > 0)
 		wall->txtr = info->wall[NORTH];
 	if (ray->side == VERTICAL && ray->direction.x < 0)
@@ -71,7 +73,7 @@ float	get_xp(t_final_ray *ray)
 	t_vect2d	ipv;
 	float		xp;
 	
-	ipv = ft_scale_vect2d(ray->direction, ray->distance);	
+	ipv = ft_scale_vect2d(ray->direction, ray->distance);
 	ipv = ft_add_vect2d(ray->origin, ipv);
 	if (ray->side == HORIZONTAL)
 		xp = (ray->direction.y > 0) - (ipv.x - (int) ipv.x);
@@ -81,15 +83,21 @@ float	get_xp(t_final_ray *ray)
 }
 
 //==== get_texel ===============================================================
-uint32_t	get_texel(float xp, float yp, t_texture *txtr)
+uint32_t	get_texel(float xp, float yp, t_texture *txtr, float intensity)
 {
-	int	x;
-	int	y;
+	int			x;
+	int			y;
+	uint8_t		*tmp;
+	int			texel;
 
-	// Add color to each side
 	if (!txtr)
 		return (0xff0000ff);
 	x = xp * txtr->width;
 	y = yp * txtr->height;
-	return (*((int *)&txtr->pixels[(y * 4 * txtr->width) + x * 4]));
+	tmp = &txtr->pixels[(y * 4 * txtr->width) + x * 4];
+	texel =	(int)(tmp[3] * intensity) << 24;
+	texel |= (int)(tmp[2] * intensity) << 16;
+	texel |= (int)(tmp[1] * intensity) << 8;
+	texel |= (int)(tmp[0] * intensity);
+	return (texel);
 }

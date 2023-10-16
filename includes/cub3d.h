@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 08:45:42 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/14 15:31:39 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/16 12:34:53 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct mlx_image		t_image;
 # define ZOOM_OUT		2
 # define CHARGE			3
 # define SHOOT_2		4
-
 
 /* ************************************************************************** */
 /*                                   POINT                                    */
@@ -101,6 +100,7 @@ typedef struct s_wall
 	int			height;
 	int			y_min;
 	int			y_max;
+	float		intensity;
 	t_texture	*txtr;
 }				t_wall;
 
@@ -124,9 +124,9 @@ typedef struct s_info
 	int32_t		height;
 	int32_t		ceiling;
 	int32_t		floor;
-	int32_t		prespective;
 	t_texture	*wall[4];
 	t_action	anime[5];
+	int32_t		perspective;
 	int32_t		active_anime;
 }	t_info;
 
@@ -166,6 +166,16 @@ t_final_ray		raycaster(t_vect2d start, t_vect2d ray_dir, t_info *info);
 t_ray			get_new_ray(t_vect2d pos, t_vect2d dir);
 double			get_grid_dist(double pos, int32_t map, double dir);
 void			maping_textures(t_image *view, int32_t x, t_final_ray *ray, t_info *info);
-void			move_up(double x, double y, void *info);
+
+/* ************************************************************************** */
+/*                                 EVENTS                                     */
+/* ************************************************************************** */
+void	mouse_cursor_handler(double x, double y, void *args);
+void	mouse_key_handler(mouse_key_t btn, action_t a, modifier_key_t m, void *p);
+
+void	move(t_camera *cam, double mv_step, t_info *info, int32_t move);
+void	rotate(t_camera *cam, double angle);
+void	aim(t_engine *inst);
+void	shoot(t_engine *inst);
 
 #endif /* __CUB3D_H__ */

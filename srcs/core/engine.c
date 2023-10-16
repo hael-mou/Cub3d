@@ -6,13 +6,13 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:05 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/14 16:49:28 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/15 13:17:06 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-//=== engine_init : ===========================================================
+//=== engine_init : ============================================================
 void	engine_init(t_engine *inst)
 {
 	inst->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_TITLE, false);
@@ -23,7 +23,7 @@ void	engine_init(t_engine *inst)
 		engine_clean(inst, EXIT_FAILURE);
 }
 
-//=== engine_clean : ========================================================
+//=== engine_clean : ===========================================================
 void	engine_clean(t_engine *inst, int exit_status)
 {
 	if (inst->mlx != NULL)
@@ -35,8 +35,9 @@ void	engine_clean(t_engine *inst, int exit_status)
 	}
 	exit(exit_status);
 }
+
 void	animator(t_engine *inst);
-//=== engine_start : ========================================================
+//=== engine_start : ===========================================================
 void	engine_start(t_engine *inst)
 {
 	inst->mode = ZOOM_OUT;
@@ -46,11 +47,13 @@ void	engine_start(t_engine *inst)
 	mlx_loop_hook(inst->mlx, key_handler, inst);
 	mlx_loop_hook(inst->mlx, render, inst);
 	mlx_loop_hook(inst->mlx, animator, inst);
-	mlx_cursor_hook(inst->mlx, move_up, inst);
+	mlx_cursor_hook(inst->mlx, mouse_cursor_handler, inst);
+	mlx_mouse_hook(inst->mlx, mouse_key_handler, inst);
 	mlx_loop(inst->mlx);
 }
+
 void	render_view(t_image *view, t_image __unused *mini, t_camera *cam, t_info *info);
-//=== render function : =======================================================
+//=== render function : ========================================================
 void	render(t_engine *inst)
 {
 	static uint32_t	index;

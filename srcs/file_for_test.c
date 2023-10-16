@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 11:09:11 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/14 16:48:59 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/16 12:52:23 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ t_info	*loader(char const *file)
 	info = ft_calloc(1, sizeof(t_info));
 	info->map = ft_calloc(12, sizeof(char *));
 	info->map[0] = " 11111111111111";
-	info->map[1] = "100000000000001 111";
-	info->map[2] = "1000000000000011101";
-	info->map[3] = "1000000001000000001";
-	info->map[4] = "1000000000100001111";
-	info->map[5] = "110010000000000111";
-	info->map[6] = "10010000000000011";
-	info->map[7] = "100000000000001";
-	info->map[8] = "1000000000000011";
-	info->map[9] = "10000000000000011";
+	info->map[1] = "100000000000010111";
+	info->map[2] = "1000000101000011101";
+	info->map[3] = "1000000101000000001";
+	info->map[4] = "1000000101100001111";
+	info->map[5] = "110010010100000111";
+	info->map[6] = "10010001010000011";
+	info->map[7] = "100000010100001";
+	info->map[8] = "10000001010000011";
+	info->map[9] = "10000001010000011";
 	info->map[10] = " 11111111111111";
 	info->height = 11;
 	info->floor = 0x00ff0000;
@@ -38,7 +38,7 @@ t_info	*loader(char const *file)
 	info->wall[SOUTH]= mlx_load_png("assets/walls/per.png");
 	info->wall[WEST]= mlx_load_png("assets/walls/per.png");
 	info->wall[EAST]= mlx_load_png("assets/walls/per.png");
-	info->prespective = WIN_HEIGHT / 2;
+	info->perspective = WIN_HEIGHT / 2;
 	//init animation :
 	info->active_anime = CHARGE;
 	info->anime[SHOOT_1].frame = 0;
