@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 22:28:06 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/15 15:49:58 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/17 21:08:51 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@ void	mouse_cursor_handler(double x, double y, void *args)
 {
 	t_engine			*inst;
 
+	(void) y;
 	inst = (t_engine *) args;
-	mlx_set_cursor_mode(inst->mlx, MLX_MOUSE_HIDDEN);
-	if (x >= 0 && x < (int) WIN_WIDTH & y >= 0 && y < (int) WIN_HEIGHT)
-	{
-		inst->info->perspective = WIN_HEIGHT - y;
-		rotate(inst->cam, (x - (WIN_WIDTH / 2.0)) * (12.0 / WIN_WIDTH));
-	}
+	//mlx_set_cursor_mode(inst->mlx, MLX_MOUSE_HIDDEN);
+//	if (x < (int) WIN_WIDTH && y < (int) WIN_HEIGHT)
+//	{
+		printf("old_x, x| %f, %f\n", inst->info->per, x);
+	//	inst->info->perspective = WIN_HEIGHT - y;
+		int	s = (x - inst->info->per >= 0) - (x - inst->info->per < 0);
+		rotate(inst->cam, 10 * s * (1.0 - x / WIN_WIDTH));
+		inst->info->per = x;
+//	}
 }
 
 //==== mouse_key_handler =======================================================

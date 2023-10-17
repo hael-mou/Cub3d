@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 11:09:11 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/16 12:52:23 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/17 20:49:50 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,15 @@ t_info	*loader(char const *file)
 	info->map[9] = "10000001010000011";
 	info->map[10] = " 11111111111111";
 	info->height = 11;
-	info->floor = 0x00ff0000;
-	info->ceiling = 0x00ff0000;
+//	info->floor = 0xf2f8f7ff;
+	info->floor = 0xff0000ff;
+	info->ceiling = 0xff0000ff;
 	info->wall[NORTH]= mlx_load_png("assets/walls/per.png");
 	info->wall[SOUTH]= mlx_load_png("assets/walls/per.png");
 	info->wall[WEST]= mlx_load_png("assets/walls/per.png");
 	info->wall[EAST]= mlx_load_png("assets/walls/per.png");
 	info->perspective = WIN_HEIGHT / 2;
+	info->per = WIN_WIDTH / 2;
 	//init animation :
 	info->active_anime = CHARGE;
 	info->anime[SHOOT_1].frame = 0;

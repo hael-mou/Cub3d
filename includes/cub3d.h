@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 08:45:42 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/16 12:34:53 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/17 21:04:13 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ typedef struct s_info
 	t_texture	*wall[4];
 	t_action	anime[5];
 	int32_t		perspective;
+	double		per;
 	int32_t		active_anime;
 }	t_info;
 

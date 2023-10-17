@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 09:39:35 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/16 12:51:56 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/17 15:09:02 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cub3d.h"
@@ -18,7 +18,11 @@ float		get_xp(t_final_ray *ray);
 float		get_yp(int32_t y, t_wall *wall);
 uint32_t	get_texel(float xp, float yp, t_texture *txtr, float intensity);
 void		get_wall_info(t_wall *wall, t_final_ray *ray, t_info *info);
+uint32_t	change_pixel_intensity(uint32_t color, float intensity);
 
+//		in = abs(y - wall.y_min + y - wall.y_max) / (WIN_HEIGHT * 0.3);
+//		if (in > 1.0)
+//			in = 1.0;
 //==== maping_textures =========================================================
 void	maping_textures(t_image *view, int32_t x, t_final_ray *ray, t_info *info)
 {
@@ -32,12 +36,13 @@ void	maping_textures(t_image *view, int32_t x, t_final_ray *ray, t_info *info)
 	y = -1;
 	while (++y < WIN_HEIGHT)
 	{
+		float in = abs(info->perspective - y) / ((WIN_HEIGHT * 0.3) / 2.0);
 		if (y < wall.y_min)
-			pixel = info->ceiling;
-		else if (y >= wall.y_min && y < wall.y_max)
+			pixel = change_pixel_intensity(info->ceiling, in);
+		if (y >= wall.y_min && y < wall.y_max)
 			pixel = get_texel(xp, get_yp(y, &wall), wall.txtr, wall.intensity);
 		else
-			pixel = info->floor;
+			pixel = change_pixel_intensity(info->floor, in);
 		memmove(&view->pixels[y * 4 * view->width + (x * 4)], &pixel, 4);
 	}
 }
@@ -49,8 +54,8 @@ void	get_wall_info(t_wall *wall, t_final_ray *ray, t_info *info)
 	wall->y_min = info->perspective - (wall->height / 2);
 	wall->y_max = wall->y_min + wall->height;
 	wall->intensity = 1.0;
-	if (wall->height < (WIN_HEIGHT * 0.30))
-		wall->intensity = wall->height / (WIN_HEIGHT * 0.30);
+	if (wall->height < WIN_HEIGHT * 0.3)
+		wall->intensity = wall->height / (WIN_HEIGHT * 0.3);
 	if (ray->side == VERTICAL && ray->direction.x > 0)
 		wall->txtr = info->wall[NORTH];
 	if (ray->side == VERTICAL && ray->direction.x < 0)
@@ -87,17 +92,29 @@ uint32_t	get_texel(float xp, float yp, t_texture *txtr, float intensity)
 {
 	int			x;
 	int			y;
-	uint8_t		*tmp;
-	int			texel;
+	uint32_t	texel;
 
 	if (!txtr)
-		return (0xff0000ff);
+		return (change_pixel_intensity(0xff0000ff, intensity));
 	x = xp * txtr->width;
 	y = yp * txtr->height;
-	tmp = &txtr->pixels[(y * 4 * txtr->width) + x * 4];
-	texel =	(int)(tmp[3] * intensity) << 24;
-	texel |= (int)(tmp[2] * intensity) << 16;
-	texel |= (int)(tmp[1] * intensity) << 8;
-	texel |= (int)(tmp[0] * intensity);
-	return (texel);
+	texel = *((int32_t *) &txtr->pixels[(y * 4 * txtr->width) + x * 4]);
+	return (change_pixel_intensity(texel, intensity));
 }
+
+//==== change_pixel_intensity ==================================================
+uint32_t	change_pixel_intensity(uint32_t pixel, float intensity)
+{
+	uint32_t	new_pixel;
+	uint8_t		*byte;
+
+	if (intensity >= 1.0)
+		intensity = 1.0;
+	byte = (uint8_t *) &pixel;
+	new_pixel = (int) (byte[3] * intensity) << 24;
+	new_pixel |= (int)(byte[2] * intensity) << 16;
+	new_pixel |= (int)(byte[1] * intensity) << 8;
+	new_pixel |= (int)(byte[0] * intensity);
+	return (new_pixel);
+}
+
