@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 08:45:42 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/17 21:04:13 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/18 11:37:15 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,11 @@ typedef struct s_wall
 {
 	int			height;
 	int			y_min;
+	int			y_moy;
 	int			y_max;
 	float		intensity;
 	t_texture	*txtr;
+	double		c;
 }				t_wall;
 
 /* ************************************************************************** */
@@ -166,7 +168,7 @@ uint32_t		get_color(t_info *info, double i, double j);
 t_final_ray		raycaster(t_vect2d start, t_vect2d ray_dir, t_info *info);
 t_ray			get_new_ray(t_vect2d pos, t_vect2d dir);
 double			get_grid_dist(double pos, int32_t map, double dir);
-void			maping_textures(t_image *view, int32_t x, t_final_ray *ray, t_info *info);
+void			maping_textures(t_image *view, int x, t_final_ray *ray, t_info *info);
 
 /* ************************************************************************** */
 /*                                 EVENTS                                     */
