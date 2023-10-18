@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 08:26:45 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/18 17:31:31 by hael-mou         ###   ########.fr       */
+/*   Created: 2023/02/06 13:46:20 by hael-mou          #+#    #+#             */
+/*   Updated: 2023/10/18 11:27:05 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-//=== cub3d main : =============================================================
-int	main(int number_argument, char const *argv[])
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	t_engine	inst;
-
-	if (number_argument == NUMBER_ARG_ALLOW)
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	if (dst > src)
 	{
-		engine_init(&inst);
-		inst.data = loader(argv[1]);
-		inst.cam = init_camera(inst.data->map);
-		load_player(&inst.player);
-		engine_start(&inst);
+		while (len--)
+			*((unsigned char *)dst + len) = *((unsigned char *)src + len);
+		return (dst);
 	}
-	return (EXIT_FAILURE);
+	return (ft_memcpy(dst, src, len));
 }

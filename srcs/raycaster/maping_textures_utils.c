@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   maping_textures_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 11:26:19 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/18 11:28:29 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/18 15:33:54 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <string.h>
 
 //==== change_pixel_intensity ==================================================
 uint32_t	change_pixel_intensity(uint32_t pixel, float intensity)

@@ -6,30 +6,14 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 08:54:27 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/15 09:49:40 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/18 17:55:05 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <string.h>
-#include <stdio.h>
 
-void	play_animation(t_image *img, t_action *action, int32_t *active_anime);
-//===
-void	animator(t_engine *inst)
-{
-	static uint16_t	index;
-	t_action		*anime;
-	
-	if (index++ % 2 == 0 && inst->info->active_anime != -1)
-	{
-		anime = &inst->info->anime[inst->info->active_anime];
-		play_animation(inst->player, anime, &inst->info->active_anime);
-	}
-}
-
-//===
-void	play_animation(t_image *img, t_action *action, int32_t *active_anime)
+//=== play_animation : ========================================================
+void	play_action(mlx_image_t *img, t_action *action, int16_t *active)
 {
 	uint32_t	img_y;
 	uint32_t	width;
@@ -41,14 +25,34 @@ void	play_animation(t_image *img, t_action *action, int32_t *active_anime)
 	if (action->frame >= action->sprite->width)
 	{
 		action->frame = 0;
-		*active_anime = -1;
+		*active = -1;
 		return ;
 	}
 	while (++img_y < img->height && img_y < action->sprite->height)
 	{
 		pexels = action->sprite->pixels;
 		pexels += (img_y * action->sprite->width + action->frame) * 4;
-		memmove(&img->pixels[img_y * img->width * 4], pexels, width * 4);
+		ft_memmove(&img->pixels[img_y * img->width * 4], pexels, width * 4);
 	}
 	action->frame += action->frame_size;
+}
+
+//== animator : ===============================================================
+void	animator(t_engine *engine)
+{
+	static uint16_t	index;
+	static double	t_acm;
+	t_action		*anime;
+
+	if (index++ % 2 == 0 && engine->player.active_action != -1)
+	{
+		t_acm += engine->mlx->delta_time;
+		while (t_acm >= TIME_OF_SMALL_MOVE)
+		{
+			usleep(250);
+			t_acm -= TIME_OF_SMALL_MOVE;
+		}
+		anime = &engine->player.action[engine->player.active_action];
+		play_action(engine->player.img, anime, &engine->player.active_action);
+	}
 }

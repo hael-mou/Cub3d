@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:25:28 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/11 08:59:36 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/18 18:01:20 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,26 @@ void		*ft_bzero(void *memory, size_t len);
  * @return	A pointer to the allocated memory or NULL if allocation fails.
  */
 void		*ft_calloc(size_t count, size_t size);
+
+/**
+ * Copies 'len' bytes of data from 'src' to 'dst'.
+ *
+ * @param dst  Destination memory area.
+ * @param src  Source memory area.
+ * @param len  Number of bytes to copy.
+ * @return     Pointer to the destination memory area.
+ */
+void		*ft_memcpy(void *dst, const void *src, size_t len);
+
+/**
+ * Copies 'len' bytes of data from 'src' to 'dst', `handling overlap`.
+ *
+ * @param dst  Destination memory area.
+ * @param src  Source memory area.
+ * @param len  Number of bytes to copy.
+ * @return     Pointer to the destination memory area.
+ */
+void		*ft_memmove(void *dst, const void *src, size_t len);
 
 /**
  * Set 'len' bytes of `memory` to the specified `constant` value.

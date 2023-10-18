@@ -6,67 +6,39 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 11:09:11 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/17 20:49:50 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/18 17:44:12 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <stdio.h>
 //==================================================================
-t_info	*loader(char const *file)
+t_data	*loader(char const *file)
 {
-	t_info	*info;
+	t_data	*info;
 
 	(void)file;
-	info = ft_calloc(1, sizeof(t_info));
+	info = ft_calloc(1, sizeof(t_data));
 	info->map = ft_calloc(12, sizeof(char *));
 	info->map[0] = " 11111111111111";
-	info->map[1] = "100000000000010111";
-	info->map[2] = "1000000101000011101";
-	info->map[3] = "1000000101000000001";
-	info->map[4] = "1000000101100001111";
-	info->map[5] = "110010010100000111";
-	info->map[6] = "10010001010000011";
-	info->map[7] = "100000010100001";
-	info->map[8] = "10000001010000011";
-	info->map[9] = "10000001010000011";
+	info->map[1] = "100000000000001 111";
+	info->map[2] = "1000000000000011101";
+	info->map[3] = "1000000001000000001";
+	info->map[4] = "1000000000100001111";
+	info->map[5] = "110010000000000111";
+	info->map[6] = "10010000000000011";
+	info->map[7] = "100000000000001";
+	info->map[8] = "1000000000000011";
+	info->map[9] = "10000000000000011";
 	info->map[10] = " 11111111111111";
 	info->height = 11;
-//	info->floor = 0xf2f8f7ff;
-	info->floor = 0xff0000ff;
-	info->ceiling = 0xff0000ff;
-	info->wall[NORTH]= mlx_load_png("assets/walls/per.png");
-	info->wall[SOUTH]= mlx_load_png("assets/walls/per.png");
-	info->wall[WEST]= mlx_load_png("assets/walls/per.png");
-	info->wall[EAST]= mlx_load_png("assets/walls/per.png");
-	info->perspective = WIN_HEIGHT / 2;
-	info->per = WIN_WIDTH / 2;
-	//init animation :
-	info->active_anime = CHARGE;
-	info->anime[SHOOT_1].frame = 0;
-	info->anime[SHOOT_1].sound = "sniper-rifle-5989.mp3";
-	info->anime[SHOOT_1].sprite = mlx_load_png("assets/guns/shoot.png");
-	info->anime[SHOOT_1].frame_size = 1509;
-	
-	info->anime[SHOOT_2].frame = 0;
-	info->anime[SHOOT_2].sound = "sniper-rifle-5989.mp3";
-	info->anime[SHOOT_2].sprite = mlx_load_png("assets/guns/shoot2.png");
-	info->anime[SHOOT_2].frame_size = 1509;
-
-	info->anime[ZOOM_IN].frame = 0;
-	info->anime[ZOOM_IN].sound = "sniper-rifle-5989.mp3";
-	info->anime[ZOOM_IN].sprite = mlx_load_png("assets/guns/zoom_in.png");
-	info->anime[ZOOM_IN].frame_size = 1509;
-
-	info->anime[ZOOM_OUT].frame = 0;
-	info->anime[ZOOM_OUT].sound = "sniper-rifle-5989.mp3";
-	info->anime[ZOOM_OUT].sprite = mlx_load_png("assets/guns/zoom_out.png");
-	info->anime[ZOOM_OUT].frame_size = 1509;
-
-	info->anime[CHARGE].frame = 0;
-	info->anime[CHARGE].sound = "sniper-rifle-5989.mp3";
-	info->anime[CHARGE].sprite = mlx_load_png("assets/guns/charge.png");
-	info->anime[CHARGE].frame_size = 1509;
+	info->floor =	0xff444444;
+	info->ceiling = 0xff220022;
+	info->wall[NORTH]= mlx_load_png("assets/walls/music.png");
+	info->wall[SOUTH]= mlx_load_png("assets/walls/music.png");
+	info->wall[WEST]= mlx_load_png("assets/walls/music.png");
+	info->wall[EAST]= mlx_load_png("assets/walls/music.png");
+	info->prespective = WIN_HEIGHT / 2;
 	return (info);
 }
 
@@ -78,7 +50,38 @@ t_camera	*init_camera(char **map)
 	(void)map;
 	cam = ft_calloc(1, sizeof(t_camera));
 	cam->position = (t_vect2d){1.5, 1.5};
-	cam->direction = (t_vect2d){-1, 0};
-	cam->plane = (t_vect2d){0, -0.66};
+	cam->direction = (t_vect2d){1, 0};
+	cam->plane = (t_vect2d){0, 0.66};
 	return (cam);
+}
+
+//=================================================================
+void	load_player(t_player *player)
+{
+	player->mode = ZOOM_OUT;
+	player->active_action = CHARGE;
+	player->action[SHOOT_1].sprite = mlx_load_png("assets/guns/shoot.png");
+	player->action[SHOOT_1].sound = "";
+	player->action[SHOOT_1].frame_size = 1509;
+	player->action[SHOOT_1].frame = 0;
+
+	player->action[SHOOT_2].sprite = mlx_load_png("assets/guns/shoot2.png");
+	player->action[SHOOT_2].sound = "";
+	player->action[SHOOT_2].frame_size = 1509;
+	player->action[SHOOT_2].frame = 0;
+
+	player->action[ZOOM_IN].sprite = mlx_load_png("assets/guns/zoom_in.png");
+	player->action[ZOOM_IN].sound = "";
+	player->action[ZOOM_IN].frame_size = 1509;
+	player->action[ZOOM_IN].frame = 0;
+
+	player->action[ZOOM_OUT].sprite = mlx_load_png("assets/guns/zoom_out.png");
+	player->action[ZOOM_OUT].sound = "";
+	player->action[ZOOM_OUT].frame_size = 1509;
+	player->action[ZOOM_OUT].frame = 0;
+
+	player->action[CHARGE].sprite = mlx_load_png("assets/guns/charge.png");
+	player->action[CHARGE].sound = "";
+	player->action[CHARGE].frame_size = 1509;
+	player->action[CHARGE].frame = 0;
 }

@@ -6,41 +6,13 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:48:10 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/15 14:52:36 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/18 18:42:05 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-//=====================================
-void	action_handler(t_engine *inst);
-
-//=== key_handler : ============================================================
-void	key_handler(t_engine *inst)
-{
-	static uint16_t index;
-
-	if (index++ % 4 == 0)
-		return ;
-	if (mlx_is_key_down(inst->mlx, MLX_KEY_ESCAPE))
-		engine_clean(inst, EXIT_SUCCESS);
-	if (mlx_is_key_down(inst->mlx, MLX_KEY_LEFT))
-		rotate(inst->cam, -4);
-	if (mlx_is_key_down(inst->mlx, MLX_KEY_RIGHT))
-		rotate(inst->cam, +4);
-	if (mlx_is_key_down(inst->mlx, MLX_KEY_W))
-		move(inst->cam, +0.2, inst->info, FORWARD);
-	if (mlx_is_key_down(inst->mlx, MLX_KEY_S))
-		move(inst->cam, -0.2, inst->info, FORWARD);
-	if (mlx_is_key_down(inst->mlx, MLX_KEY_A))
-		move(inst->cam, -0.2, inst->info, SIDEWAY);
-	if (mlx_is_key_down(inst->mlx, MLX_KEY_D))
-		move(inst->cam, +0.2, inst->info, SIDEWAY);
-	if (inst->info->active_anime == -1)
-		action_handler(inst);
-}
-
-//==================================
+//=== action handler : ========================================================
 void	action_handler(t_engine *inst)
 {
 	if (mlx_is_key_down(inst->mlx, MLX_KEY_E))
@@ -49,7 +21,61 @@ void	action_handler(t_engine *inst)
 		shoot(inst);
 	else if (mlx_is_key_down(inst->mlx, MLX_KEY_R))
 	{
-		inst->info->active_anime = CHARGE;
-		inst->mode = ZOOM_OUT;
+		inst->player.active_action = CHARGE;
+		inst->player.mode = ZOOM_OUT;
 	}
+}
+
+//=== key_handler : ============================================================
+void	key_handler(t_engine *inst)
+{
+	static uint16_t	index;
+
+	if (index++ % 2 == 0)
+		return ;
+	if (mlx_is_key_down(inst->mlx, MLX_KEY_ESCAPE))
+		engine_clean(inst, EXIT_SUCCESS);
+	if (mlx_is_key_down(inst->mlx, MLX_KEY_LEFT))
+		rotate_camera(inst->cam, -STEP_ROT);
+	if (mlx_is_key_down(inst->mlx, MLX_KEY_RIGHT))
+		rotate_camera(inst->cam, +STEP_ROT);
+	if (mlx_is_key_down(inst->mlx, MLX_KEY_W))
+		move_camera(inst->cam, +STEP_MOVE, inst->data, FORWARD);
+	if (mlx_is_key_down(inst->mlx, MLX_KEY_S))
+		move_camera(inst->cam, -STEP_MOVE, inst->data, FORWARD);
+	if (mlx_is_key_down(inst->mlx, MLX_KEY_A))
+		move_camera(inst->cam, -STEP_MOVE, inst->data, SIDEWAY);
+	if (mlx_is_key_down(inst->mlx, MLX_KEY_D))
+		move_camera(inst->cam, +STEP_MOVE, inst->data, SIDEWAY);
+	if (inst->player.active_action == -1)
+		action_handler(inst);
+}
+
+//=== mouse_handler : ==========================================================
+void	mouse_handler(t_engine *inst)
+{
+	static uint16_t	idex;
+	static double	pre;
+	int32_t			x;
+	int32_t			y;
+
+	mlx_get_mouse_pos(inst->mlx, &x, &y);
+	mlx_set_cursor_mode(inst->mlx, MLX_MOUSE_HIDDEN);
+	if (idex++ % 2 == 0 && x >= 0 && x < WIN_WIDTH && y >= 0 && y <  WIN_HEIGHT)
+	{
+		inst->data->prespective = WIN_HEIGHT - y;
+		rotate_camera(inst->cam, (x - pre) * 0.4);
+		pre = x;
+	}
+}
+
+//==== mouse_key_handler =======================================================
+void	mouse_key_han(mouse_key_t bt, action_t a, modifier_key_t m, void *p)
+{
+	(void) a;
+	(void) m;
+	if (bt == MLX_MOUSE_BUTTON_RIGHT)
+		aim(p);
+	if (bt == MLX_MOUSE_BUTTON_LEFT)
+		shoot(p);
 }

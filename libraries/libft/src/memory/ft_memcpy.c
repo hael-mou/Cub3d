@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 08:26:45 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/18 17:31:31 by hael-mou         ###   ########.fr       */
+/*   Created: 2023/02/06 13:45:11 by hael-mou          #+#    #+#             */
+/*   Updated: 2023/10/18 11:27:20 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-//=== cub3d main : =============================================================
-int	main(int number_argument, char const *argv[])
+void	*ft_memcpy(void *dst, const void *src, size_t len)
 {
-	t_engine	inst;
+	size_t	index;
 
-	if (number_argument == NUMBER_ARG_ALLOW)
-	{
-		engine_init(&inst);
-		inst.data = loader(argv[1]);
-		inst.cam = init_camera(inst.data->map);
-		load_player(&inst.player);
-		engine_start(&inst);
-	}
-	return (EXIT_FAILURE);
+	index = -1;
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	while (++index < len)
+		*((unsigned char *)dst + index) = *((unsigned char *)src + index);
+	return (dst);
 }
