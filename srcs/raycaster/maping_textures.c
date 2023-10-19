@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 09:39:35 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/18 16:29:16 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/19 07:39:17 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	get_wall_info(t_wall *wall, t_final_ray *ray, t_data *data)
 	wall->y_moy = data->prespective;
 	wall->y_min = wall->y_moy - (wall->height / 2);
 	wall->y_max = wall->y_min + wall->height;
-	wall->c = WIN_HEIGHT * 0.6;
+	wall->c = WIN_HEIGHT * SMOKE_EFFECT;
 	wall->intensity = wall->height / wall->c;
 	if (ray->side == VERTICAL && ray->direction.x > 0)
 		wall->txtr = data->wall[NORTH];
