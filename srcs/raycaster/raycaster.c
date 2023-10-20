@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 10:45:33 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/18 15:39:33 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/20 11:13:14 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ t_final_ray	raycaster(t_vect2d start, t_vect2d ray_dir, t_data *data)
 	fray.direction = ray_dir;
 	fray.distance = (ray.s_dist.x - ray.delta.x) * (fray.side == VERTICAL);
 	fray.distance += (ray.s_dist.y - ray.delta.y) * (fray.side == HORIZONTAL);
+	fray.is_door = data->map[ray.pos_map.y][ray.pos_map.x] == '2';
 	return (fray);
 }

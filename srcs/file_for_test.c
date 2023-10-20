@@ -6,12 +6,13 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 11:09:11 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/18 17:44:12 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/20 12:14:09 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <stdio.h>
+#include <string.h>
 //==================================================================
 t_data	*loader(char const *file)
 {
@@ -20,24 +21,25 @@ t_data	*loader(char const *file)
 	(void)file;
 	info = ft_calloc(1, sizeof(t_data));
 	info->map = ft_calloc(12, sizeof(char *));
-	info->map[0] = " 11111111111111";
-	info->map[1] = "100000000000001 111";
-	info->map[2] = "1000000000000011101";
-	info->map[3] = "1000000001000000001";
-	info->map[4] = "1000000000100001111";
-	info->map[5] = "110010000000000111";
-	info->map[6] = "10010000000000011";
-	info->map[7] = "100000000000001";
-	info->map[8] = "1000000000000011";
-	info->map[9] = "10000000000000011";
-	info->map[10] = " 11111111111111";
+	info->map[0] = strdup(" 11111111111111");
+	info->map[1] = strdup("10000100000001 111");
+	info->map[2] = strdup("1000020000000011101");
+	info->map[3] = strdup("1000010001000000001");
+	info->map[4] = strdup("1000010000100001111");
+	info->map[5] = strdup("110011000000000111");
+	info->map[6] = strdup("11210000000000011");
+	info->map[7] = strdup("100000000000001");
+	info->map[8] = strdup("1000000000000011");
+	info->map[9] = strdup("10000000000000011");
+	info->map[10] = strdup(" 11111111111111");
 	info->height = 11;
 	info->floor =	0xff444444;
 	info->ceiling = 0xff220022;
-	info->wall[NORTH]= mlx_load_png("assets/walls/music.png");
-	info->wall[SOUTH]= mlx_load_png("assets/walls/music.png");
-	info->wall[WEST]= mlx_load_png("assets/walls/music.png");
-	info->wall[EAST]= mlx_load_png("assets/walls/music.png");
+	info->wall[NORTH] = mlx_load_png("assets/walls/music.png");
+	info->wall[SOUTH] = mlx_load_png("assets/walls/music.png");
+	info->wall[WEST] = mlx_load_png("assets/walls/music.png");
+	info->wall[EAST] = mlx_load_png("assets/walls/music.png");
+	info->door = mlx_load_png("assets/door.png");
 	info->prespective = WIN_HEIGHT / 2;
 	return (info);
 }

@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 11:35:57 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/18 17:30:03 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/20 11:10:48 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_final_ray
 	t_vect2d		origin;
 	t_vect2d		direction;
 	int32_t			side;
+	bool			is_door;
 	double			distance;
 }	t_final_ray;
 
@@ -103,6 +104,7 @@ typedef struct s_data
 	int32_t			height;
 	int32_t			ceiling;
 	int32_t			floor;
+	mlx_texture_t	*door;
 	mlx_texture_t	*wall[4];
 	int32_t			prespective;
 }	t_data;

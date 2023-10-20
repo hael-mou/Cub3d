@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 09:39:35 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/19 07:39:17 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/20 11:09:54 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static void	get_wall_info(t_wall *wall, t_final_ray *ray, t_data *data)
 		wall->txtr = data->wall[EAST];
 	if (ray->side == HORIZONTAL && ray->direction.y > 0)
 		wall->txtr = data->wall[WEST];
+	if (ray->is_door == true)
+		wall->txtr = data->door;
 }
 
 //==== get_xp ==================================================================

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_handler.c                                      :+:      :+:    :+:   */
+/*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:48:10 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/20 10:46:22 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/20 12:19:06 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,23 @@ void	action_handler(t_engine *inst)
 	{
 		inst->player.active_action = CHARGE;
 		inst->player.mode = ZOOM_OUT;
+	}
+}
+
+//=== door_handler : ==========================================================
+void	door_handler(t_engine *inst)
+{
+	static t_vect2d	open;
+	t_vect2d		curs;
+
+	curs = ft_add_vect2d(inst->cam->direction, inst->cam->position);
+	if (inst->data->map[(int)curs.y][(int)curs.x] == '2')
+	{
+		inst->data->map[(int)curs.y][(int)curs.x] = '0';
+		if (open.x != 0.0 || open.y != 0.0)
+			inst->data->map[(int)open.y][(int)open.x] = '2';
+		open.x = curs.x;
+		open.y = curs.y;
 	}
 }
 
@@ -47,6 +64,8 @@ void	key_handler(t_engine *inst)
 		move_camera(inst->cam, -STEP_MOVE, inst->data, SIDEWAY);
 	if (mlx_is_key_down(inst->mlx, MLX_KEY_D))
 		move_camera(inst->cam, +STEP_MOVE, inst->data, SIDEWAY);
+	if (mlx_is_key_down(inst->mlx, MLX_KEY_F))
+		door_handler(inst);
 	if (inst->player.active_action == -1)
 		action_handler(inst);
 }
