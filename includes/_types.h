@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 11:35:57 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/20 11:10:48 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/22 16:48:29 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 /* ************************************************************************** */
 # include "MLX42.h"
 # include "libft.h"
+# include "_define.h"
 
 /* ************************************************************************** */
 /*                                   POINT                                    */
@@ -60,8 +61,8 @@ typedef struct s_wall
 	int				y_max;
 	float			intensity;
 	mlx_texture_t	*txtr;
-	double		c;
-}				t_wall;
+	double			c;
+}					t_wall;
 
 /* ************************************************************************** */
 /*                                  CAMERA                                    */
@@ -102,8 +103,8 @@ typedef struct s_data
 {
 	char			**map;
 	int32_t			height;
-	int32_t			ceiling;
-	int32_t			floor;
+	uint32_t		ceiling;
+	uint32_t		floor;
 	mlx_texture_t	*door;
 	mlx_texture_t	*wall[4];
 	int32_t			prespective;

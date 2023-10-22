@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 11:09:11 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/20 12:14:09 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/22 15:33:51 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <string.h>
 //==================================================================
-t_data	*loader(char const *file)
+/*t_data	*loader(char const *file)
 {
 	t_data	*info;
 
@@ -43,7 +43,7 @@ t_data	*loader(char const *file)
 	info->prespective = WIN_HEIGHT / 2;
 	return (info);
 }
-
+*/
 //==================================================================
 t_camera	*init_camera(char **map)
 {
@@ -63,27 +63,22 @@ void	load_player(t_player *player)
 	player->mode = ZOOM_OUT;
 	player->active_action = CHARGE;
 	player->action[SHOOT_1].sprite = mlx_load_png("assets/guns/shoot.png");
-	player->action[SHOOT_1].sound = "";
 	player->action[SHOOT_1].frame_size = 1509;
 	player->action[SHOOT_1].frame = 0;
 
 	player->action[SHOOT_2].sprite = mlx_load_png("assets/guns/shoot2.png");
-	player->action[SHOOT_2].sound = "";
 	player->action[SHOOT_2].frame_size = 1509;
 	player->action[SHOOT_2].frame = 0;
 
 	player->action[ZOOM_IN].sprite = mlx_load_png("assets/guns/zoom_in.png");
-	player->action[ZOOM_IN].sound = "";
 	player->action[ZOOM_IN].frame_size = 1509;
 	player->action[ZOOM_IN].frame = 0;
 
 	player->action[ZOOM_OUT].sprite = mlx_load_png("assets/guns/zoom_out.png");
-	player->action[ZOOM_OUT].sound = "";
 	player->action[ZOOM_OUT].frame_size = 1509;
 	player->action[ZOOM_OUT].frame = 0;
 
 	player->action[CHARGE].sprite = mlx_load_png("assets/guns/charge.png");
-	player->action[CHARGE].sound = "";
 	player->action[CHARGE].frame_size = 1509;
 	player->action[CHARGE].frame = 0;
 }

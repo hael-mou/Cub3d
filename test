@@ -1,0 +1,11 @@
+NO ./p.png
+SO ./p.png
+EA ./p.png
+WE ./p.png
+
+F -1,0,0
+C 255,1,2
+
+111
+101
+111
