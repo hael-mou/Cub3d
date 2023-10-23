@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 12:16:52 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/23 17:51:11 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/23 20:23:13 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,18 @@ char	*get_line(int fd, int index)
 }
 
 //====< check_space >===========================================================
-int	check_space(char **map, int i, int j)
+int	check_unit(char **map, int row, int colum)
 {
-	if (!i || !j || !map[i + 1] || !map[i][j + 1])
+	if (!strchr(" 012NSWE", map[row][colum]))
 		return (false);
-	else if (map[i][j - 1] == ' ' || map[i][j + 1] == ' ')
+	if (!row || !colum || !map[row + 1] || !map[row][colum + 1])
 		return (false);
-	else if (ft_strlen(map[i - 1]) < j + 1 || ft_strlen(map[i + 1]) < j + 1)
+	else if (map[row][colum - 1] == ' ' || map[row][colum + 1] == ' ')
 		return (false);
-	else if (map[i - 1][j] == ' ' || map[i + 1][j] == ' ')
+	else if (ft_strlen(map[row - 1]) < colum + 1
+			|| ft_strlen(map[row + 1]) < colum + 1)
+		return (false);
+	else if (map[row - 1][colum] == ' ' || map[row + 1][colum] == ' ')
 		return (false);
 	return (true);
 }
@@ -59,8 +62,13 @@ void	*clean_data(t_data *data)
 	int	i;
 
 	i = -1;
+	if (data == NULL)
+		return (NULL);
 	while (++i < 4)
-		mlx_delete_texture(data->wall[i]);
+	{
+		if (data->wall[i])
+			mlx_delete_texture(data->wall[i]);
+	}
 	i = -1;
 	while(data->map[++i])
 		free(data->map[i]);

@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 11:09:11 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/22 15:33:51 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/23 19:42:13 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 }
 */
 //==================================================================
-t_camera	*init_camera(char **map)
+/*t_camera	*init_camera(char **map)
 {
 	t_camera	*cam;
 
@@ -55,7 +55,7 @@ t_camera	*init_camera(char **map)
 	cam->direction = (t_vect2d){1, 0};
 	cam->plane = (t_vect2d){0, 0.66};
 	return (cam);
-}
+}*/
 
 //=================================================================
 void	load_player(t_player *player)

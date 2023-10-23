@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:54:27 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/23 17:55:11 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/23 20:42:10 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,24 @@ static char	**read_map(int fd, char *line, int index)
 //====< check_map >=============================================================
 static int	check_map(char **map, t_data *data)
 {
-	int		i;
-	int		j;
+	int		row;
+	int		colum;
 
-	(void) data;
-	i = -1;
-	while (map[++i])
+	row = -1;
+	while (map[++row])
 	{
-		j = -1;
-		while (map[i][++j])
+		colum = -1;
+		while (map[row][++colum])
 		{
-			if (map[i][++j] == '0' && check_space(map, i, j) == false)
+			if (!strchr(" 1", map[row][colum]) && !check_unit(map, row, colum))
 				return (false);
 		}
 	}
-	return (1);
+	data->height = row;
+	return (true);
 }
 
-//=== loader : ================================================================
+//===< loader >=================================================================
 t_data	*loader(char const *file)
 {
 	t_data	*data;
@@ -68,10 +68,66 @@ t_data	*loader(char const *file)
 		line = get_line(fd, 0);
 	}
 	data->map = read_map(fd, line, 0);
-	int	i = -1;
 	if (check_map(data->map, data) == false)
 		return (clean_data(data), NULL);
-	while (data->map[++i])
-		printf("MAP| %s\n", (data->map)[i]);
 	return (data);
+}
+
+
+void	set_camera(t_camera *cam, int x, int y, char *dir);
+//=== init_camera : ============================================================
+t_camera	*init_camera(char **map)
+{
+	t_camera	*cam;
+	int			x;
+	int			y;
+
+	y = -1;
+	cam = ft_calloc(1, sizeof(t_camera));
+	if (cam == NULL || map == NULL)
+		return (free(cam), NULL);
+	cam->position = (t_vect2d){-1, -1};
+	while (map[++y])
+	{
+		x = -1;
+		while (map[y][++x])
+		{
+			if (strchr("NSEW", map[y][x]))
+			{
+				if (cam->position.x != -1)
+					return (free(cam), NULL);
+				set_camera(cam, x, y, &map[y][x]);
+			}
+		}
+	}
+	if (cam->position.x == -1)
+		return (free(cam), NULL);
+	return (cam);
+}
+
+//====< set_camera >============================================================
+void	set_camera(t_camera *cam, int x, int y, char *dir)
+{
+	cam->position = (t_vect2d){x + 0.5, y + 0.5};
+	if (*dir == 'N')
+	{
+		cam->direction = (t_vect2d){0, -1};
+		cam->plane = (t_vect2d){0.66, 0};
+	}
+	else if (*dir == 'S')
+	{
+		cam->direction = (t_vect2d){0, 1};
+		cam->plane = (t_vect2d){-0.66, 0};
+	}
+	else if (*dir == 'E')
+	{
+		cam->direction = (t_vect2d){-1, 0};
+		cam->plane = (t_vect2d){0, -0.66};
+	}
+	else if (*dir == 'W')
+	{
+		cam->direction = (t_vect2d){1, 0};
+		cam->plane = (t_vect2d){0, 0.66};
+	}
+	*dir = '0';
 }
