@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:54:27 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/23 13:29:30 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/23 15:58:28 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,45 +18,38 @@
 #define OTHER	1
 
 //==============================================================================
-void		*ft_calloc(size_t count, size_t size);
-char		*get_next_line(int fd, int index);
-uint32_t	extract_rgb_color(char *line);
-//==============================================================================
-//==============================================================================
-t_data	*loader(char const *file);
-char	**parse_scene_file(int fd, int index, int area);
-//==============================================================================
-int	check_map_line(char *colom, int *area);
-int	check_texture(char *line, int *area);
-int	analize_line(char *line, int *area);
-int	check_ceiling_floor_line(char *line, int *area);
+char	*get_line(int fd, int index);
 
 //==============================================================================
-int	load_textures(char **lines, t_data *data);
-int	load_ceiling_floor_color(char **lines, t_data *data);
+t_data	*loader(char const *file);
+char	**read_map(int fd, char *line, int index);
+
+//==============================================================================
 int	load_map(char **lines, t_data *data);
 
 //==============================================================================
 t_data	*loader(char const *file)
 {
 	t_data	*data;
-	char	**lines;
 	int		fd;
-	int		re;
-
-	data = (t_data *) malloc(sizeof(t_data));
+//	char	*line;
+	
+	data = ft_calloc(1, sizeof(t_data));
 	fd = open(file, O_RDONLY);
 	if (data == NULL || fd < 0)
 		return (free(data), close(fd), NULL);
-	lines = parse_scene_file(fd, 0, OTHER);
-	if (lines == NULL)
-		return (free(data), printf("error\n"), NULL);
-//	re = load_textures(lines, data);
-//	re += load_ceiling_floor_color(lines, data);
-	re = load_map(lines, data);
-	printf("re => %d\n", re);
-//	if (re != 3)
-//	   return (free(data), free(lines), NULL);
+//	while (true)
+//	{
+//		line = get_line(fd, 0);
+//		if (is_map(line) == true)
+//			break ;
+//		if (load_assets(line, data) == false)
+//			return (free(line), clean_data(data)); 
+//		free(line);
+//	}
+	data->map = read_map(fd, NULL, 0);
+//	if (check_map(data->map) == false)
+//		return (clean_data(data), NULL);
 	return (data);
 }
 
@@ -90,8 +83,28 @@ int	load_map(char **lines, t_data *data)
 	return (1);
 }
 
+//====< read_map >==============================================================
+char	**read_map(int fd, char *line, int index)
+{
+	char	**map;
+	char	*cur_line;
+
+	cur_line = get_line(fd, 0);
+	if (!line)
+	{
+		map = ft_calloc(index + 1, sizeof(char *));
+		map[index] = line;
+		return (map);
+	}
+	map = read_map(fd, cur_line, index + 1);
+	if (!map)
+		return (free(line), NULL);
+	map[index] = line;
+	return (map);
+}
+
 //==== load_ceiling_floor_color ================================================
-int	load_ceiling_floor_color(char **lines, t_data *data)
+/*int	load_ceiling_floor_color(char **lines, t_data *data)
 {
 	int32_t	*var;
 
@@ -105,69 +118,10 @@ int	load_ceiling_floor_color(char **lines, t_data *data)
 		lines++;
 	}
 	return (data->floor >= 0 && data->ceiling >= 0 && var[0] == 1 && var[1] == 1);
-}
-
-//==== load_textures ===========================================================
-int	load_textures(char **lines, t_data *data)
-{
-	char	*dir[4];
-	int		count;
-	int		i;
-
-	count = 0;
-	dir[0] = "NO";
-	dir[1] = "SO";
-	dir[2] = "EA";
-	dir[3] = "WE";
-	while (*lines)
-	{
-		i = 0;
-		while (i < 4 && !strstr(*lines, dir[i]))
-			i++;
-		if (i < 4 && ++count)
-		{
-			data->wall[i] = mlx_load_png(strchr(*lines, '/') + 1);
-			if (!data->wall[i])
-				return (0);
-		}
-		lines++;
-	}
-	return (count == 4);
-}
-
-//==== parse_===================================================================
-char	**parse_scene_file(int fd, int index, int area)
-{
-	char	**lines;
-	char	*line;
-
-	line = get_next_line(fd, 0);
-	if (!line || !analize_line(line, &area))
-		return (ft_calloc((index + 1) * (!line && area == MAP), sizeof(char *)));
-	lines = parse_scene_file(fd, index + 1, area);
-	if (!lines)
-		return (free(line), NULL);
-	lines[index] = line;
-	return (lines);
-}
-
-//==== line_analyser ===========================================================
-int	analize_line(char *line, int *area)
-{
-	if (!line || (line && !*line && *area != MAP))
-		return (1);
-	else if (strstr(line, "NO") || strstr(line, "SO")
-		|| strstr(line, "WE") || strstr(line, "EA"))
-		return (check_texture(line, area));
-	else if (strstr(line, "F") || strstr(line, "C"))
-		return (check_ceiling_floor_line(line, area));
-	else
-		*area = MAP;
-	return (*line || *area != MAP);
-}
+}*/
 
 //=== check_ceiling_floor_line ==================================================
-int	check_ceiling_floor_line(char *line, int *area)
+/*int	check_ceiling_floor_line(char *line, int *area)
 {
 	int	prev_state;
 	int	count;
@@ -185,17 +139,27 @@ int	check_ceiling_floor_line(char *line, int *area)
 		prev_state = *(line++);
 	}
 	return (count == 2);
-}
+}*/
 
-//==== check_texture ===========================================================
-int	check_texture(char *line, int *area)
+//==== load_textures ===========================================================
+/*int	load_textures(char *line, t_data *data)
 {
-	char	*tmp;
+	char	*dir[4];
+	int		i;
 
-	if (*area != OTHER)
-		return (0);
-	tmp = strchr(line, '/');
-	if (tmp && access(tmp + 1, F_OK | R_OK) == 0)
-		return (1);
-	return (0);
-}
+	dir[0] = "NO";
+	dir[1] = "SO";
+	dir[2] = "EA";
+	dir[3] = "WE";
+	i = -1;
+	while (++i < 4)
+	{
+		if (strstr(line, dir[i]) && !data->wall[i])
+		{
+			data->wall[i] = load_png(ft_strchr(line, '/') + 1);
+			if (!data->wall[i])
+				return (0);
+		}
+	}
+	return (1);
+}*/
