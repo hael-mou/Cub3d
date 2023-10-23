@@ -6,12 +6,11 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 12:16:52 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/23 16:37:46 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/23 17:51:11 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-// #define RGB(R, G, B) (R << 24 | G << 16 | B << 8 | 255)
 
 //====< get_line >==============================================================
 char	*get_line(int fd, int index)
@@ -25,6 +24,20 @@ char	*get_line(int fd, int index)
 	if (tmp)
 		tmp[index] = c;
 	return (tmp);
+}
+
+//====< check_space >===========================================================
+int	check_space(char **map, int i, int j)
+{
+	if (!i || !j || !map[i + 1] || !map[i][j + 1])
+		return (false);
+	else if (map[i][j - 1] == ' ' || map[i][j + 1] == ' ')
+		return (false);
+	else if (ft_strlen(map[i - 1]) < j + 1 || ft_strlen(map[i + 1]) < j + 1)
+		return (false);
+	else if (map[i - 1][j] == ' ' || map[i + 1][j] == ' ')
+		return (false);
+	return (true);
 }
 
 //====< is_map >================================================================

@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:54:27 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/23 17:10:42 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/23 17:55:11 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,26 @@ static char	**read_map(int fd, char *line, int index)
 		return (free(line), NULL);
 	map[index] = line;
 	return (map);
+}
+
+//====< check_map >=============================================================
+static int	check_map(char **map, t_data *data)
+{
+	int		i;
+	int		j;
+
+	(void) data;
+	i = -1;
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i][++j])
+		{
+			if (map[i][++j] == '0' && check_space(map, i, j) == false)
+				return (false);
+		}
+	}
+	return (1);
 }
 
 //=== loader : ================================================================
@@ -49,9 +69,9 @@ t_data	*loader(char const *file)
 	}
 	data->map = read_map(fd, line, 0);
 	int	i = -1;
+	if (check_map(data->map, data) == false)
+		return (clean_data(data), NULL);
 	while (data->map[++i])
 		printf("MAP| %s\n", (data->map)[i]);
-//	if (check_map(data->map) == false)
-//		return (clean_data(data), NULL);
 	return (data);
 }

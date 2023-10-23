@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 08:45:42 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/19 07:47:10 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:49:18 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_camera	*init_camera(char **map);
 void		load_player(t_player *player);
 char		*get_line(int fd, int index);
 int			is_map(char *line);
+int			check_space(char **map, int i, int j);
 void		*clean_data(t_data *data);
 
 /* ************************************************************************** */
