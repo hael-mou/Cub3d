@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:54:27 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/22 17:35:05 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/23 01:40:07 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,40 @@ t_data	*loader(char const *file)
 	lines = parse_scene_file(fd, 0, OTHER);
 	if (!lines)
 		return (free(data), printf("error\n"), NULL);
-//	re = load_textures(lines, data);
-	re = 1;
+	re = load_textures(lines, data);
 	re += load_ceiling_floor_color(lines, data);
 	re += load_map(lines, data);
-	printf("CEILING| => %u\n", data->ceiling);
-	printf("FLOOR| => %u\n", data->floor);
-	if (re != 3)
-	   return (free(data), free(lines), NULL);
+//	if (re != 3)
+//	   return (free(data), free(lines), NULL);
 	return (data);
 }
 
 int	load_map(char **lines, t_data *data)
 {
-	(void) lines;
+	int		i;
+	int		j;
+
 	(void) data;
+	i = -1;
+	while (lines[++i])
+	{
+		j = -1;
+		while (lines[i][++j])
+		{
+			if (!strchr(" 012NSWE", lines[i][j]))
+				return (0);
+			if (lines[i][j] != '0')
+				continue ;
+			if (!j || !i || !lines[i][j + 1] || !lines[i + 1])
+				return (0);
+			else if (!strchr("01", lines[i][j - 1]) || !strchr("01", lines[i][j + 1]))
+				return (0);
+			else if ((int)strlen(lines[i - 1]) < j + 1 || (int)strlen(lines[i + 1]) < j + 1)
+				return (0);
+			else if (!strchr("01", lines[i - 1][j]) || !strchr("01", lines[i + 1][j]))
+				return (0);
+		}
+	}
 	return (1);
 }
 
@@ -73,7 +92,7 @@ int	load_map(char **lines, t_data *data)
 int	load_ceiling_floor_color(char **lines, t_data *data)
 {
 	int32_t	*var;
-	
+
 	var = (int [2]){0, 0};
 	while (*lines)
 	{
@@ -89,22 +108,27 @@ int	load_ceiling_floor_color(char **lines, t_data *data)
 //==== load_textures ===========================================================
 int	load_textures(char **lines, t_data *data)
 {
-	int	count;
-	int	i;
+	char	*dir[4];
+	int		count;
+	int		i;
 
 	count = 0;
-	i = -1;
-	while (lines[++i])
+	dir[0] = "NO";
+	dir[1] = "SO";
+	dir[2] = "EA";
+	dir[3] = "WE";
+	while (*lines)
 	{
-		if (strstr(lines[i], "NO") && ++count)
-			data->wall[0] = mlx_load_png(strchr(lines[i], '/') + 1);
-		if (strstr(lines[i], "SO") && ++count)
-			data->wall[1] = mlx_load_png(strchr(lines[i], '/') + 1);
-		if (strstr(lines[i], "WE") && ++count)
-			data->wall[2] = mlx_load_png(strchr(lines[i], '/') + 1);
-		if (strstr(lines[i], "EA") && ++count)
-			data->wall[3] = mlx_load_png(strchr(lines[i], '/') + 1);
-		// IF one of these NULL error loding
+		i = 0;
+		while (i < 4 && !strstr(*lines, dir[i]))
+			i++;
+		if (i < 4 && ++count)
+		{
+			data->wall[i] = mlx_load_png(strchr(*lines, '/') + 1);
+			if (!data->wall[i])
+				return (0);
+		}
+		lines++;
 	}
 	return (count == 4);
 }
