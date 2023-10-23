@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:54:27 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/23 15:28:44 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/23 13:29:30 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@ uint32_t	extract_rgb_color(char *line);
 //==============================================================================
 //==============================================================================
 t_data	*loader(char const *file);
-char	**read_map(int fd, char *line, int index);
+char	**parse_scene_file(int fd, int index, int area);
 //==============================================================================
+int	check_map_line(char *colom, int *area);
+int	check_texture(char *line, int *area);
+int	analize_line(char *line, int *area);
 int	check_ceiling_floor_line(char *line, int *area);
 
 //==============================================================================
@@ -37,19 +40,23 @@ int	load_map(char **lines, t_data *data);
 t_data	*loader(char const *file)
 {
 	t_data	*data;
+	char	**lines;
 	int		fd;
 	int		re;
-	char	line;
-	
+
 	data = (t_data *) malloc(sizeof(t_data));
 	fd = open(file, O_RDONLY);
 	if (data == NULL || fd < 0)
 		return (free(data), close(fd), NULL);
-//	while (1)
-//	{
-//		line = get_next_line(fd, 0);
-//	}
-	data->map = read_map(fd, NULL, tmp_line);
+	lines = parse_scene_file(fd, 0, OTHER);
+	if (lines == NULL)
+		return (free(data), printf("error\n"), NULL);
+//	re = load_textures(lines, data);
+//	re += load_ceiling_floor_color(lines, data);
+	re = load_map(lines, data);
+	printf("re => %d\n", re);
+//	if (re != 3)
+//	   return (free(data), free(lines), NULL);
 	return (data);
 }
 
@@ -101,46 +108,62 @@ int	load_ceiling_floor_color(char **lines, t_data *data)
 }
 
 //==== load_textures ===========================================================
-int	load_textures(char *line, t_data *data)
+int	load_textures(char **lines, t_data *data)
 {
 	char	*dir[4];
+	int		count;
 	int		i;
 
+	count = 0;
 	dir[0] = "NO";
 	dir[1] = "SO";
 	dir[2] = "EA";
 	dir[3] = "WE";
-	i = -1;
-	while (++i < 4)
+	while (*lines)
 	{
-		if (strstr(line, dir[i]) && !data->wall[i])
+		i = 0;
+		while (i < 4 && !strstr(*lines, dir[i]))
+			i++;
+		if (i < 4 && ++count)
 		{
-			data->wall[i] = load_png(ft_strchr(line, '/') + 1);
+			data->wall[i] = mlx_load_png(strchr(*lines, '/') + 1);
 			if (!data->wall[i])
 				return (0);
 		}
+		lines++;
 	}
-	return (1);
+	return (count == 4);
 }
 
-//====< read_map >==============================================================
-char	**read_map(int fd, char *line, int index)
+//==== parse_===================================================================
+char	**parse_scene_file(int fd, int index, int area)
 {
-	char	**map;
-	char	*cur_line;
+	char	**lines;
+	char	*line;
 
-	cur_line = get_next_line(fd, 0);
-	if (!line)
-	{
-		map = calloc(index + 1, sizeof(char *));
-		map[index] = line;
-		return (map);
-	}
-	map = read_map(fd, cur_line, index + 1);
-	if (!map)
+	line = get_next_line(fd, 0);
+	if (!line || !analize_line(line, &area))
+		return (ft_calloc((index + 1) * (!line && area == MAP), sizeof(char *)));
+	lines = parse_scene_file(fd, index + 1, area);
+	if (!lines)
 		return (free(line), NULL);
-	map[index] = line;
-	return (map);
+	lines[index] = line;
+	return (lines);
+}
+
+//==== line_analyser ===========================================================
+int	analize_line(char *line, int *area)
+{
+	if (!line || (line && !*line && *area != MAP))
+		return (1);
+	else if (strstr(line, "NO") || strstr(line, "SO")
+		|| strstr(line, "WE") || strstr(line, "EA"))
+		return (check_texture(line, area));
+	else if (strstr(line, "F") || strstr(line, "C"))
+		return (check_ceiling_floor_line(line, area));
+	else
+		*area = MAP;
+	return (*line || *area != MAP);
 }
 
 //=== check_ceiling_floor_line ==================================================
@@ -162,4 +185,17 @@ int	check_ceiling_floor_line(char *line, int *area)
 		prev_state = *(line++);
 	}
 	return (count == 2);
+}
+
+//==== check_texture ===========================================================
+int	check_texture(char *line, int *area)
+{
+	char	*tmp;
+
+	if (*area != OTHER)
+		return (0);
+	tmp = strchr(line, '/');
+	if (tmp && access(tmp + 1, F_OK | R_OK) == 0)
+		return (1);
+	return (0);
 }
