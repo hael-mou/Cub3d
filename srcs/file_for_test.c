@@ -13,6 +13,24 @@
 #include "cub3d.h"
 #include <stdio.h>
 #include <string.h>
+
+t_token	tokenizer(char *line)
+{
+	t_token	token;
+
+	while (line && *line && *line == ' ')
+		line++;
+	token.key = line;
+	while (line && *line && *line != ' ')
+		line++;
+	if (line != NULL)
+		*line++ = '\0';
+	while (line && *line && *line == ' ')
+		line++;
+	token.value = line;
+	return (token);
+}
+
 //==================================================================
 /*t_data	*loader(char const *file)
 {
