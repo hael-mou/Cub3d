@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 08:26:45 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/23 20:33:10 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/23 22:39:10 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@ int	main(int number_argument, char const *argv[])
 	{
 		engine_init(&inst);
 		inst.data = loader(argv[1]);
+		if (inst.data == NULL)
+			engine_clean(&inst, EXIT_FAILURE);
 		inst.cam = init_camera(inst.data->map);
-		if (!inst.cam)
-		{
-			printf("======\n");
-			clean_data(inst.data);
-			return (EXIT_FAILURE);	
-		}
+		if (inst.cam == NULL)
+			engine_clean(&inst, EXIT_FAILURE);
 		load_player(&inst.player);
 		engine_start(&inst);
 	}
-	return (EXIT_SUCCESS);
+	return (EXIT_FAILURE);
 }

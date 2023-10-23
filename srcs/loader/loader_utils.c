@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 12:16:52 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/23 20:23:13 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/24 00:55:12 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,31 @@ int	is_map(char *line)
 	return (index && line[index] == '\0');
 }
 
+//====< get_color >==============================================================
+uint32_t get_color(char *line)
+{
+	int	rgb[3];
+	int	i;
+
+	i = -1;
+	while (*line && ++i < 3)
+	{
+		if (*line == ',')
+			return (1);
+		rgb[i] = atoi(line);
+		while (*line && *line != ',')
+		{
+			if (*line < '0' || *line > '9' || rgb[i] > 255)
+				return (1);
+			line++;
+		}
+		line += (*line == ',' && i < 3);
+	}
+	if (*line)
+		return (1);
+	return (255 << 24 | rgb[2] << 16 | rgb[1] << 8 | rgb[0]);
+}
+
 //====< clean_data >=============================================================
 void	*clean_data(t_data *data)
 {
@@ -70,7 +95,7 @@ void	*clean_data(t_data *data)
 			mlx_delete_texture(data->wall[i]);
 	}
 	i = -1;
-	while(data->map[++i])
+	while (data->map && data->map[++i])
 		free(data->map[i]);
 	free(data->map);
 	return (NULL);

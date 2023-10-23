@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:05 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/18 18:28:51 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/23 22:37:13 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ void	engine_init(t_engine *inst)
 //=== engine_clean : ===========================================================
 void	engine_clean(t_engine *inst, int exit_status)
 {
-	if (inst->mlx != NULL)
+	if (inst && inst->mlx != NULL)
 	{
 		mlx_delete_image(inst->mlx, inst->mini);
 		mlx_delete_image(inst->mlx, inst->view);
 		mlx_delete_image(inst->mlx, inst->player.img);
 		mlx_terminate(inst->mlx);
 	}
+	if (inst && inst->data != NULL)
+		clean_data(inst->data);
 	exit(exit_status);
 }
 

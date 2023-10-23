@@ -1,5 +1,12 @@
-NO ./JSODJFDI
+SO ./assets/walls/music.png
+WE ./assets/door2.png
+F 0,0,255
 
-11111
-1E0001 1
-111111
+C 0,0,255
+EA ./assets/door.png
+
+1111111
+1000001
+100N001
+1000001
+1111111

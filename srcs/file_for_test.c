@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 11:09:11 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/23 19:42:13 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/23 21:15:32 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_token	tokenizer(char *line)
 	token.key = line;
 	while (line && *line && *line != ' ')
 		line++;
-	if (line != NULL)
+	if (line != NULL && *line != '\0')
 		*line++ = '\0';
 	while (line && *line && *line == ' ')
 		line++;

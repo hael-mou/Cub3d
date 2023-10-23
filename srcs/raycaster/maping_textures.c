@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 09:39:35 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/20 11:09:54 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/23 22:10:30 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static void	get_wall_info(t_wall *wall, t_final_ray *ray, t_data *data)
 	wall->c = WIN_HEIGHT * SMOKE_EFFECT;
 	wall->intensity = wall->height / wall->c;
 	if (ray->side == VERTICAL && ray->direction.x > 0)
-		wall->txtr = data->wall[NORTH];
-	if (ray->side == VERTICAL && ray->direction.x < 0)
-		wall->txtr = data->wall[SOUTH];
-	if (ray->side == HORIZONTAL && ray->direction.y < 0)
 		wall->txtr = data->wall[EAST];
-	if (ray->side == HORIZONTAL && ray->direction.y > 0)
+	if (ray->side == VERTICAL && ray->direction.x < 0)
 		wall->txtr = data->wall[WEST];
+	if (ray->side == HORIZONTAL && ray->direction.y < 0)
+		wall->txtr = data->wall[NORTH];
+	if (ray->side == HORIZONTAL && ray->direction.y > 0)
+		wall->txtr = data->wall[SOUTH];
 	if (ray->is_door == true)
 		wall->txtr = data->door;
 }
