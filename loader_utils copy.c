@@ -11,7 +11,10 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-// #define RGB(R, G, B) (R << 24 | G << 16 | B << 8 | 255)
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#define RGB(R, G, B) (R << 24 | G << 16 | B << 8 | 255)
 
 //====< get_line >==============================================================
 char	*get_line(int fd, int index)
@@ -25,19 +28,6 @@ char	*get_line(int fd, int index)
 	if (tmp)
 		tmp[index] = c;
 	return (tmp);
-}
-
-//====< is_map >================================================================
-int	is_map(char *line)
-{
-	int	index;
-
-	index = 0;
-	if (line == NULL)
-		return (true);
-	while (line[index] && strchr(" 012NSEW", line[index]))
-		index++;
-	return (index && line[index] == '\0');
 }
 
 //====< clean_data >=============================================================
@@ -54,3 +44,19 @@ void	*clean_data(t_data *data)
 	free(data->map);
 	return (NULL);
 }
+//==== extract_rgb_color ========================================================
+/*int32_t	extract_rgb_color(char *line)
+{
+	int	r;
+	int	g;
+	int	b;
+
+	while(!strchr("+-0123456789", *line))
+			line++;
+	r = atoi(line);
+	g = atoi(strchr(line, ',') + 1);
+	b = atoi(strrchr(line, ',') + 1);
+	if (r * g * b < 0 || r + g + b > 765)
+		return (-1);
+	return (RGB(r, g, b));
+}*/

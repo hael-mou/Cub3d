@@ -18,6 +18,7 @@
 /* ************************************************************************** */
 # include "_define.h"
 # include "_types.h"
+# include <fcntl.h>
 
 /* ************************************************************************** */
 /*                                  CORE                                      */
@@ -40,6 +41,9 @@ void		aim(t_engine *inst);
 t_data		*loader(char const *file);
 t_camera	*init_camera(char **map);
 void		load_player(t_player *player);
+char		*get_line(int fd, int index);
+int			is_map(char *line);
+void		*clean_data(t_data *data);
 
 /* ************************************************************************** */
 /*                               RAYCASTER                                    */
@@ -55,3 +59,5 @@ void		minimap(mlx_image_t *img, t_data *data, t_vect2d cam);
 void		render_view(mlx_image_t *view, t_camera *cam, t_data *data);
 
 #endif /* __CUB3D_H__ */
+#include <stdio.h>
+#include <string.h>
