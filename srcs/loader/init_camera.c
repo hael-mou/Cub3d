@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:54:27 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/24 15:31:13 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:12:38 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_camera	*init_camera(char **map)
 		x = -1;
 		while (map[y][++x])
 		{
-			if (strchr("NSEW", map[y][x]))
+			if (ft_strchr("NSEW", map[y][x]))
 			{
 				if (cam->position.x != -1)
 					return (free(cam), NULL);

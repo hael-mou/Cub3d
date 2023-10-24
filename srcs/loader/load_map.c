@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:24:37 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/24 15:40:50 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:12:38 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	check_map(char **map, t_data *data)
 		colum = -1;
 		while (map[row][++colum])
 		{
-			if (!strchr(" 1", map[row][colum]) && !check_unit(map, row, colum))
+			if (!ft_strchr(" 1", map[row][colum]) && !check_unit(map, row, colum))
 				return (false);
 		}
 	}
@@ -63,7 +63,7 @@ static int	is_map(char *line)
 	index = 0;
 	if (line == NULL)
 		return (true);
-	while (line[index] && strchr(" 012NSEW", line[index]))
+	while (line[index] && ft_strchr(" 012NSEW", line[index]))
 		index++;
 	return (index && line[index] == '\0');
 }

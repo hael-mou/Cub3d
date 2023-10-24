@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 12:16:52 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/24 15:48:22 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:12:38 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_token	tokenizer(char *line)
 //====< check_unit >===========================================================
 int	check_unit(char **map, int row, int colum)
 {
-	if (!strchr(" 012NSWE", map[row][colum]))
+	if (!ft_strchr(" 012NSWE", map[row][colum]))
 		return (false);
 	if (!row || !colum || !map[row + 1] || !map[row][colum + 1])
 		return (false);

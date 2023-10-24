@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:25:28 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/18 18:01:20 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:13:32 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,14 @@ int32_t		ft_strcmp(const char *s1, const char *s2);
  * @param c2 The character with which to replace 'c1'.
  */
 void		ft_replace(char *str, char c1, char c2);
+
+/**
+ * ...
+ *
+ * @param string ...
+ * @param character ...
+ */
+char		*ft_strchr(const char *string, int character);
 
 /* ************************************************************************** */
 /*                              VECTOR 2D                                     */
