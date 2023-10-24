@@ -3,9 +3,10 @@ NO ./assets/walls/music.png
 EA ./assets/walls/music.png
 WE ./assets/walls/music.png
 
-C 1,0,0
+C 		
+11,0,0
 F 0,0,0
 
-000
-0N0
-000
+111
+1N1
+111
