@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 08:45:42 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/24 15:48:27 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:04:20 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void		aim(t_engine *inst);
 /* ************************************************************************** */
 t_data		*loader(char const *file);
 bool		load_player(t_player *player);
-int 		load_assets(char *line, t_data *data);
+int			load_assets(char *line, t_data *data);
 t_camera	*init_camera(char **map);
 void		set_camera(t_camera *cam, int x, int y, char *dir);
 char		*get_line(int fd, int index);
@@ -62,5 +62,3 @@ void		minimap(mlx_image_t *img, t_data *data, t_vect2d cam);
 void		render_view(mlx_image_t *view, t_camera *cam, t_data *data);
 
 #endif /* __CUB3D_H__ */
-#include <stdio.h>
-#include <string.h>

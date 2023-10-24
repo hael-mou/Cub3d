@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:40:18 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/24 15:56:06 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/24 16:01:03 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	load_texture(t_token token, t_data *data)
 {
 	char	**dir;
 	int		index;
-	
+
 	index = -1;
 	dir = (char *[4]){"NO", "SO", "WE", "EA"};
 	while (++index < 4)

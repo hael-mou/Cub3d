@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 10:48:10 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/23 22:21:18 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/24 16:00:45 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ void	mouse_handler(t_engine *inst)
 
 	mlx_get_mouse_pos(inst->mlx, &x, &y);
 	mlx_set_cursor_mode(inst->mlx, MLX_MOUSE_HIDDEN);
-	if (idex++ % 2 == 0 && x >= 0 && x < WIN_WIDTH && y >= 0 && y <  WIN_HEIGHT)
+	if (idex++ % 2 == 0 && x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
 	{
-		//inst->data->prespective = WIN_HEIGHT - y;
-		//rotate_camera(inst->cam, (x - pre) * 0.4);
+		inst->data->prespective = WIN_HEIGHT - y;
+		rotate_camera(inst->cam, (x - pre) * 0.4);
 		pre = x;
 	}
 }
