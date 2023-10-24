@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:40:18 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/24 15:46:17 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:56:06 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,14 @@ static uint32_t	get_color(char *line)
 	return (255 << 24 | rgb[2] << 16 | rgb[1] << 8 | rgb[0]);
 }
 
-//====< load_assets >===========================================================
-int	load_assets(char *line, t_data *data)
+//====< load_texture >==========================================================
+static int	load_texture(t_token token, t_data *data)
 {
 	char	**dir;
-	t_token	token;
 	int		index;
-
+	
 	index = -1;
 	dir = (char *[4]){"NO", "SO", "WE", "EA"};
-	token = tokenizer(line);
 	while (++index < 4)
 	{
 		if (ft_strcmp(dir[index], token.key) == 0)
@@ -57,6 +55,12 @@ int	load_assets(char *line, t_data *data)
 			return (true);
 		}
 	}
+	return (false);
+}
+
+//====< load_ceiling_floor >====================================================
+static int	load_ceiling_floor(t_token token, t_data *data)
+{
 	if (ft_strcmp("F", token.key) == 0 && data->floor == 0)
 	{
 		data->floor = get_color(token.value);
@@ -67,5 +71,18 @@ int	load_assets(char *line, t_data *data)
 		data->ceiling = get_color(token.value);
 		return (true);
 	}
+	return (false);
+}
+
+//====< load_assets >===========================================================
+int	load_assets(char *line, t_data *data)
+{
+	t_token	token;
+
+	token = tokenizer(line);
+	if (load_texture(token, data) == true)
+		return (true);
+	if (load_ceiling_floor(token, data) == true)
+		return (true);
 	return (false);
 }
