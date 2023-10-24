@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:25:28 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/24 16:13:32 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:21:49 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,13 @@ void		ft_replace(char *str, char c1, char c2);
  * @param character ...
  */
 char		*ft_strchr(const char *string, int character);
+
+/**
+ * ...
+ *
+ * @param str ...
+ */
+int			ft_atoi(const char *str);
 
 /* ************************************************************************** */
 /*                              VECTOR 2D                                     */
