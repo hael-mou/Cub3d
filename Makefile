@@ -6,7 +6,7 @@
 #    By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/07 08:48:02 by hael-mou          #+#    #+#              #
-#    Updated: 2023/10/24 18:10:45 by oezzaou          ###   ########.fr        #
+#    Updated: 2023/10/24 20:36:15 by oezzaou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ INCLUDE_DIRS	:=	$(sort $(dir $(INCLUDE_FILES)))
 #=== Command : =================================================================
 CC				:= 	cc
 RM				:= 	rm -rf
-CFLAGS 			:= 	-Wall -Wextra -Werror -o3 -g -fsanitize=address
+CFLAGS 			:= 	-Wall -Wextra -Werror -o3 #-g -fsanitize=address
 LINKS			:= 	-lmlx42 -lglfw -lft -lm
 LINKS_DIR		:=	-L$(MLX42_DIR) -L$(GLFW_DIR)/lib -L$(LIBFT_DIR)
 FRAMEWORKS		:=	-framework Cocoa -framework OpenGL -framework IOKit
@@ -81,6 +81,8 @@ fclean: clean
 	fi
 
 re:	fclean all
+
+bonus: all
 
 run:
 	@./$(NAME) $(MAP_FILE)

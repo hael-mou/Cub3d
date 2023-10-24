@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 16:27:31 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/24 19:27:33 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/24 20:33:29 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static bool	check_map(char **map, t_data *data)
 	if (data->floor <= 1 || data->ceiling <= 1)
 		return (ft_perror("Invalid color"), false);
 	row = -1;
-	while (map[++row] && *map[row])
+	while (map && map[++row] && *map[row])
 	{
 		colum = -1;
 		while (map[row][++colum])
@@ -53,7 +53,7 @@ static bool	check_map(char **map, t_data *data)
 		}
 	}
 	data->height = row;
-	return (map[row] == NULL);
+	return (map && map[row] == NULL);
 }
 
 //====< is_map >================================================================

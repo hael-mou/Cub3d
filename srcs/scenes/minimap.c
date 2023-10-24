@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 11:24:35 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/20 11:16:22 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 19:58:32 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static uint32_t	get_color(t_data *data, double i, double j)
 		return (0xff0000ff);
 	if (data->map[(int)j][(int)i] == '2')
 		return (0x3333ffff);
+	if (data->map[(int)j][(int)i] == ' ')
+		return (0x0098DBff);
 	return (0xffffffff);
 }
 
