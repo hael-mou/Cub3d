@@ -3,28 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/29 21:34:20 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/01/17 16:58:43 by oezzaou          ###   ########.fr       */
+/*   Created: 2023/02/06 15:37:42 by hael-mou          #+#    #+#             */
+/*   Updated: 2023/10/24 19:12:30 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+static int	ft_isspace(int character)
 {
-	int		s;
-	long	nb;
+	if (character == '\t' || character == ' ')
+		return (true);
+	if (character == '\v' || character == '\f')
+		return (true);
+	if (character == '\n' || character == '\r')
+		return (true);
+	return (false);
+}
 
-	s = 1;
-	nb = 0;
-	while (ft_strchr("\n\t\r\v\f ", *str))
-		str++;
-	if (*str == '-')
-		s = -s;
-	if (*str == '-' || *str == '+')
-		str++;
-	while (*str >= '0' && *str <= '9')
-		nb = (nb * 10) + (*(str++) - '0');
-	return (nb * s);
+static int	ft_isdigit(int character)
+{
+	if (character >= '0' && character <= '9')
+		return (true);
+	return (false);
+}
+
+int	ft_atoi(const char *string)
+{
+	int		sign;
+	int		nbr;
+
+	nbr = 0;
+	sign = 1;
+	while (ft_isspace(*string))
+		string++;
+	if (*string == '-')
+	{
+		sign = -1;
+		string++;
+	}
+	else if (*string == '+')
+		string++;
+	while (ft_isdigit(*string))
+		nbr = nbr * 10 + (*string++) - '0';
+	return (nbr * sign);
 }
