@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:24:37 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/24 16:12:38 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:29:51 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,18 @@ static int	is_map(char *line)
 	while (line[index] && ft_strchr(" 012NSEW", line[index]))
 		index++;
 	return (index && line[index] == '\0');
+}
+
+//==== is_cub_map :=============================================================
+bool	is_cub_map(char *file)
+{
+	int	len;
+
+	len = ft_strlen(file);
+	if (len > 4 && ft_strcmp(&file[len - 4], ".cub") == 0)
+		return (true);
+	ft_perror("expected .cub file!!");
+	return (false);
 }
 
 //===< loader >=================================================================
