@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:31:05 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/24 15:57:36 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/24 17:50:42 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void	engine_init(t_engine *inst)
 {
 	inst->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, WIN_TITLE, false);
+	ft_bzero(&inst->player, sizeof(t_player));
 	if (inst->mlx != NULL)
 	{
 		inst->mini = mlx_new_image(inst->mlx, 400, 400);
@@ -29,6 +30,9 @@ void	engine_init(t_engine *inst)
 //=== engine_clean : ===========================================================
 void	engine_clean(t_engine *inst, int exit_status)
 {
+	int	index;
+
+	index = -1;
 	if (inst && inst->mlx != NULL)
 	{
 		mlx_delete_image(inst->mlx, inst->mini);
@@ -38,6 +42,11 @@ void	engine_clean(t_engine *inst, int exit_status)
 	}
 	if (inst && inst->data != NULL)
 		clean_data(inst->data);
+	while (++index < 4)
+	{
+		if (inst->player.action[index].sprite != NULL)
+			mlx_delete_texture(inst->player.action[index].sprite);
+	}
 	exit(exit_status);
 }
 

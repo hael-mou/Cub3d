@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:40:18 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/24 16:01:03 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 18:51:44 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static uint32_t	get_color(char *line)
 	{
 		if (*line == ',')
 			return (1);
-		rgb[i] = atoi(line);
+		rgb[i] = ft_atoi(line);
 		while (*line && *line != ',')
 		{
 			if (*line < '0' || *line > '9' || rgb[i] > 255)
 				return (1);
 			line++;
 		}
-		line += (*line == ',' && i < 3);
+		line += (*line == ',' && i < 2);
 	}
 	if (*line)
 		return (1);
@@ -38,19 +38,23 @@ static uint32_t	get_color(char *line)
 }
 
 //====< load_texture >==========================================================
-static int	load_texture(t_token token, t_data *data)
+static bool	load_texture(t_token token, t_data *data)
 {
 	char	**dir;
 	int		index;
 
 	index = -1;
 	dir = (char *[4]){"NO", "SO", "WE", "EA"};
+	if (data->door == NULL)
+		data->door = mlx_load_png("assets/door.png");
 	while (++index < 4)
 	{
 		if (ft_strcmp(dir[index], token.key) == 0)
 		{
+			if (data->wall[index] != NULL)
+				return (ft_perror("Duplicated Texture"), false);
 			data->wall[index] = mlx_load_png(token.value);
-			if (!data->wall[index])
+			if (!data->wall[index] || !data->door)
 				return (false);
 			return (true);
 		}
@@ -59,7 +63,7 @@ static int	load_texture(t_token token, t_data *data)
 }
 
 //====< load_ceiling_floor >====================================================
-static int	load_ceiling_floor(t_token token, t_data *data)
+static bool	load_ceiling_floor(t_token token, t_data *data)
 {
 	if (ft_strcmp("F", token.key) == 0 && data->floor == 0)
 	{
@@ -75,7 +79,7 @@ static int	load_ceiling_floor(t_token token, t_data *data)
 }
 
 //====< load_assets >===========================================================
-int	load_assets(char *line, t_data *data)
+bool	load_assets(char *line, t_data *data)
 {
 	t_token	token;
 

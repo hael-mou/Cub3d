@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 08:45:42 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/24 16:04:20 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 18:59:25 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void		aim(t_engine *inst);
 /* ************************************************************************** */
 t_data		*loader(char const *file);
 bool		load_player(t_player *player);
-int			load_assets(char *line, t_data *data);
+bool		load_assets(char *line, t_data *data);
 t_camera	*init_camera(char **map);
 void		set_camera(t_camera *cam, int x, int y, char *dir);
 char		*get_line(int fd, int index);
 t_token		tokenizer(char *line);
-int			check_unit(char **map, int row, int colum);
+bool		check_unit(char **map, int row, int colum);
 void		*clean_data(t_data *data);
 
 /* ************************************************************************** */

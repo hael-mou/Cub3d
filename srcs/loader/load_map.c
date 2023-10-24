@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/24 15:24:37 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/24 16:29:51 by hael-mou         ###   ########.fr       */
+/*   Created: 2023/10/24 16:27:31 by oezzaou           #+#    #+#             */
+/*   Updated: 2023/10/24 18:52:28 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	**read_map(int fd, char *line, int index)
 }
 
 //====< check_map >=============================================================
-static int	check_map(char **map, t_data *data)
+static bool	check_map(char **map, t_data *data)
 {
 	int		row;
 	int		colum;
@@ -42,21 +42,22 @@ static int	check_map(char **map, t_data *data)
 	if (data->floor <= 1 || data->ceiling <= 1)
 		return (ft_perror("Invalid color"), false);
 	row = -1;
-	while (map[++row])
+	while (map[++row] && *map[row])
 	{
 		colum = -1;
 		while (map[row][++colum])
 		{
-			if (!ft_strchr(" 1", map[row][colum]) && !check_unit(map, row, colum))
+			if (!ft_strchr(" 1", map[row][colum])
+				&& !check_unit(map, row, colum))
 				return (false);
 		}
 	}
 	data->height = row;
-	return (true);
+	return (map[row] == NULL);
 }
 
 //====< is_map >================================================================
-static int	is_map(char *line)
+static bool	is_map(char *line)
 {
 	int	index;
 
@@ -69,7 +70,7 @@ static int	is_map(char *line)
 }
 
 //==== is_cub_map :=============================================================
-bool	is_cub_map(char *file)
+static bool	is_cub_map(char const *file)
 {
 	int	len;
 
@@ -89,19 +90,19 @@ t_data	*loader(char const *file)
 
 	data = ft_calloc(1, sizeof(t_data));
 	fd = open(file, O_RDONLY);
-	if (data == NULL || fd < 0)
+	if (!is_cub_map(file) || data == NULL || fd < 0)
 		return (free(data), close(fd), NULL);
 	data->prespective = WIN_HEIGHT / 2;
 	line = get_line(fd, 0);
 	while (is_map(line) == false)
 	{
 		if (*line && load_assets(line, data) == false)
-			return (free(line), clean_data(data));
+			return (free(line), close(fd), clean_data(data));
 		free(line);
 		line = get_line(fd, 0);
 	}
 	data->map = read_map(fd, line, 0);
 	if (check_map(data->map, data) == false)
-		return (clean_data(data), NULL);
-	return (data);
+		return (ft_perror("Invalid Map"), close(fd), clean_data(data));
+	return (close(fd), data);
 }

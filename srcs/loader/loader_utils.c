@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 12:16:52 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/24 16:12:38 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 18:52:46 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_token	tokenizer(char *line)
 }
 
 //====< check_unit >===========================================================
-int	check_unit(char **map, int row, int colum)
+bool	check_unit(char **map, int row, int colum)
 {
 	if (!ft_strchr(" 012NSWE", map[row][colum]))
 		return (false);
@@ -69,6 +69,8 @@ void	*clean_data(t_data *data)
 	i = -1;
 	if (data == NULL)
 		return (NULL);
+	if (data->door != NULL)
+		mlx_delete_texture(data->door);
 	while (++i < 4)
 	{
 		if (data->wall[i])
