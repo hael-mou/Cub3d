@@ -1,5 +1,6 @@
 SO ./assets/walls/music.png
 WE ./assets/door2.png
+NO ./assets/door2.png
 F 0,0,255
 
 C 0,0,255

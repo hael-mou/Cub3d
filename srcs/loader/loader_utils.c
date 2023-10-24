@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loader_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 12:16:52 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/24 00:55:12 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/24 15:48:22 by hael-mou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,25 @@ char	*get_line(int fd, int index)
 	return (tmp);
 }
 
-//====< check_space >===========================================================
+//==== tokenizer :=============================================================
+t_token	tokenizer(char *line)
+{
+	t_token	token;
+
+	while (line && *line && *line == ' ')
+		line++;
+	token.key = line;
+	while (line && *line && *line != ' ')
+		line++;
+	if (line != NULL && *line != '\0')
+		*line++ = '\0';
+	while (line && *line && *line == ' ')
+		line++;
+	token.value = line;
+	return (token);
+}
+
+//====< check_unit >===========================================================
 int	check_unit(char **map, int row, int colum)
 {
 	if (!strchr(" 012NSWE", map[row][colum]))
@@ -36,52 +54,14 @@ int	check_unit(char **map, int row, int colum)
 	else if (map[row][colum - 1] == ' ' || map[row][colum + 1] == ' ')
 		return (false);
 	else if (ft_strlen(map[row - 1]) < colum + 1
-			|| ft_strlen(map[row + 1]) < colum + 1)
+		|| ft_strlen(map[row + 1]) < colum + 1)
 		return (false);
 	else if (map[row - 1][colum] == ' ' || map[row + 1][colum] == ' ')
 		return (false);
 	return (true);
 }
 
-//====< is_map >================================================================
-int	is_map(char *line)
-{
-	int	index;
-
-	index = 0;
-	if (line == NULL)
-		return (true);
-	while (line[index] && strchr(" 012NSEW", line[index]))
-		index++;
-	return (index && line[index] == '\0');
-}
-
-//====< get_color >==============================================================
-uint32_t get_color(char *line)
-{
-	int	rgb[3];
-	int	i;
-
-	i = -1;
-	while (*line && ++i < 3)
-	{
-		if (*line == ',')
-			return (1);
-		rgb[i] = atoi(line);
-		while (*line && *line != ',')
-		{
-			if (*line < '0' || *line > '9' || rgb[i] > 255)
-				return (1);
-			line++;
-		}
-		line += (*line == ',' && i < 3);
-	}
-	if (*line)
-		return (1);
-	return (255 << 24 | rgb[2] << 16 | rgb[1] << 8 | rgb[0]);
-}
-
-//====< clean_data >=============================================================
+//====< clean_data >============================================================
 void	*clean_data(t_data *data)
 {
 	int	i;
