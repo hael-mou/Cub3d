@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:40:18 by hael-mou          #+#    #+#             */
-/*   Updated: 2023/10/24 18:51:44 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/24 19:21:13 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static uint32_t	get_color(char *line)
 		}
 		line += (*line == ',' && i < 2);
 	}
-	if (*line)
+	if (*line || i != 2)
 		return (1);
 	return (255 << 24 | rgb[2] << 16 | rgb[1] << 8 | rgb[0]);
 }
@@ -75,7 +75,7 @@ static bool	load_ceiling_floor(t_token token, t_data *data)
 		data->ceiling = get_color(token.value);
 		return (true);
 	}
-	return (false);
+	return (ft_perror("Invalid Color"), false);
 }
 
 //====< load_assets >===========================================================

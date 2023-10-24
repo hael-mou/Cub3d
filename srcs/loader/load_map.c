@@ -6,7 +6,7 @@
 /*   By: oezzaou <oezzaou@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 16:27:31 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/24 18:52:28 by oezzaou          ###   ########.fr       */
+/*   Updated: 2023/10/24 19:27:33 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_data	*loader(char const *file)
 	data = ft_calloc(1, sizeof(t_data));
 	fd = open(file, O_RDONLY);
 	if (!is_cub_map(file) || data == NULL || fd < 0)
-		return (free(data), close(fd), NULL);
+		return (ft_perror("Invalid file"), free(data), close(fd), NULL);
 	data->prespective = WIN_HEIGHT / 2;
 	line = get_line(fd, 0);
 	while (is_map(line) == false)

@@ -6,7 +6,7 @@
 /*   By: hael-mou <hael-mou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:54:27 by oezzaou           #+#    #+#             */
-/*   Updated: 2023/10/24 16:12:38 by hael-mou         ###   ########.fr       */
+/*   Updated: 2023/10/24 19:45:02 by oezzaou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ t_camera	*init_camera(char **map)
 			if (ft_strchr("NSEW", map[y][x]))
 			{
 				if (cam->position.x != -1)
-					return (free(cam), NULL);
+					return (ft_perror("Duplicated Player"), free(cam), NULL);
 				set_camera(cam, x, y, &map[y][x]);
 			}
 		}
 	}
 	if (cam->position.x == -1)
-		return (free(cam), NULL);
+		return (ft_perror("Player Not found"), free(cam), NULL);
 	return (cam);
 }
 
